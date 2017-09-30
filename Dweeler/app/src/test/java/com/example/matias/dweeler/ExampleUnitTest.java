@@ -1,4 +1,4 @@
-package ar.com.dweeler.dweeler;
+package com.example.matias.dweeler;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package ar.com.dweeler.dweeler;
+package com.example.matias.dweeler;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ar.com.dweeler.dweeler", appContext.getPackageName());
+        assertEquals("com.example.matias.dweeler", appContext.getPackageName());
     }
 }
