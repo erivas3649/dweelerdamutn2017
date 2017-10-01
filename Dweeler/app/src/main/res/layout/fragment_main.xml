@@ -24,7 +24,7 @@
 
             <TextView
                 android:id="@+id/lbl_nombrePerfil"
-                android:layout_width="280dp"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="Matías, Paván"
                 android:textColor="@android:color/background_light" />
@@ -32,8 +32,9 @@
             <ImageButton
                 android:id="@+id/btn_notificaciones"
                 android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:src="@drawable/campana1" />
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                android:src="@drawable/campana" />
         </LinearLayout>
 
         <TableLayout
@@ -47,7 +48,7 @@
                 <TabHost
                     android:id="@+id/main_tab"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -68,7 +69,8 @@
                             <LinearLayout
                                 android:id="@+id/tab1"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="560dp"
+                                android:background="@color/colorPrimaryDark"
                                 android:orientation="horizontal">
 
                             </LinearLayout>
@@ -76,9 +78,13 @@
                             <LinearLayout
                                 android:id="@+id/tab2"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="400dp"
                                 android:orientation="vertical">
 
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:text="Hola" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -92,22 +98,6 @@
                     </LinearLayout>
                 </TabHost>
             </TableRow>
-
         </TableLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/colorPrimaryDark"></ListView>
     </LinearLayout>
 </LinearLayout>
