@@ -1,15 +1,21 @@
 package com.example.matias.dweeler;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,18 +23,20 @@ import java.util.ArrayList;
  * Created by Matias on 30/09/2017.
  */
 
-public class HogaresActivity extends ListActivity {
+public class HogaresActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
-    public static final String TAG = "MainAndroidDialogs";
+    public static final String TAG = "HogaresAndroid";
     private HogaresAdapter adapter;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hogar_layout);
         adapter = new HogaresAdapter();
-
         setListAdapter(adapter);
         cargarDatos();
+        getListView().setClickable(true);
+        getListView().setOnItemClickListener(this);
     }
 
     private void cargarDatos(){
@@ -41,6 +49,16 @@ public class HogaresActivity extends ListActivity {
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        TabHost.TabSpec tab2 = MainFragment.tab.newTabSpec("tabHabitacion");
+        Intent intent = new Intent().setClass(this, HabitacionesActivity.class);
+        tab2.setContent(R.id.tab1);
+        tab2.setIndicator("Departamento", null);
+        tab2.setContent(intent);
+        MainFragment.tab.addTab(tab2);
+        MainFragment.tab.setCurrentTab(1);
+    }
 
     class HogaresAdapter extends BaseAdapter{
         private ArrayList<Hogar> hogares;
@@ -114,7 +132,7 @@ public class HogaresActivity extends ListActivity {
     }
 
     public int getMenuTypeIcon(int type) {
-        int resId = R.drawable.menu_vertical;
+        int resId = R.drawable.menuvertical;
         return resId;
     }
 }

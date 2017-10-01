@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HogaresActivity"></activity>
+        <activity android:name=".HabitacionesActivity"></activity>
+        <activity android:name=".DispositivoActivity"></activity>
     </application>
 
 </manifest>

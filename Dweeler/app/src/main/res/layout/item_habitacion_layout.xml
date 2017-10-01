@@ -6,13 +6,12 @@
     android:background="@color/colorPrimaryDark"
     android:orientation="horizontal">
 
-    <TableRow android:layout_gravity="center">
+    <TableRow>
 
         <ImageView
-            android:id="@+id/img_hogar"
+            android:id="@+id/img_habitacion"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center"
             app:srcCompat="@android:drawable/btn_dialog" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -22,25 +21,22 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_hogar"
+                android:id="@+id/txt_habitacion"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_gravity="center"/>
+                android:text="TextView" />
 
             <TextView
-                android:id="@+id/txt_direccion"
+                android:id="@+id/txt_quien"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:layout_gravity="center"/>
+                android:text="TextView" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/btn_menuVertical"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:srcCompat="@drawable/menuvertical"
-            android:layout_gravity="center"/>
+            app:srcCompat="@drawable/menuvertical" />
     </TableRow>
 </TableLayout>

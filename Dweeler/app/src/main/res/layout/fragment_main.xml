@@ -57,8 +57,10 @@
 
                         <TabWidget
                             android:id="@android:id/tabs"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:divider="@android:color/background_light"
+                            android:foregroundTint="@android:color/background_light"
                             android:orientation="horizontal" />
 
                         <FrameLayout
@@ -68,8 +70,8 @@
 
                             <LinearLayout
                                 android:id="@+id/tab1"
-                                android:layout_width="match_parent"
-                                android:layout_height="560dp"
+                                android:layout_width="10dp"
+                                android:layout_height="wrap_content"
                                 android:background="@color/colorPrimaryDark"
                                 android:orientation="horizontal">
 
@@ -81,10 +83,6 @@
                                 android:layout_height="400dp"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:text="Hola" />
                             </LinearLayout>
 
                             <LinearLayout

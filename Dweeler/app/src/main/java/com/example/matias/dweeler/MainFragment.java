@@ -3,6 +3,7 @@ package com.example.matias.dweeler;
 import android.app.Fragment;
 import android.app.LocalActivityManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,8 +31,7 @@ public class MainFragment extends Fragment {
     ImageView img_perfil;
     TextView txt_nombrePerfil;
     ImageButton btn_notificaciones;
-    TabHost tab;
-    LinearLayout l1;
+    public static TabHost tab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,17 +50,38 @@ public class MainFragment extends Fragment {
         tab = (TabHost) rootView.findViewById(R.id.main_tab);
         tab.setup(mlam);
         TabHost.TabSpec tab1 = tab.newTabSpec("tabHome");
-        Intent intent = new Intent().setClass(getActivity(), HogaresActivity.class);
+        Intent intentHogares = new Intent().setClass(getActivity(), HogaresActivity.class);
         tab1.setContent(R.id.tab1);
         tab1.setIndicator("", getResources().getDrawable(R.drawable.home));
-        tab1.setContent(intent);
+        tab1.setContent(intentHogares);
         tab.addTab(tab1);
-        TabHost.TabSpec tab2 = tab.newTabSpec("tabHogar");
-        tab2.setContent(R.id.tab2);
-        tab2.setIndicator("", getResources().getDrawable(R.drawable.campana));
-        tab1.setContent(R.id.tab2);
-        tab.addTab(tab2);
+        tab.getTabWidget().getChildAt(tab.getCurrentTab())
+                .setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        TabHost.TabSpec tab2 = MainFragment.tab.newTabSpec("tabHabitacion");
+        Intent intentHabitaciones = new Intent().setClass(getActivity(), HabitacionesActivity.class);
+        tab2.setContent(R.id.tab1);
+        tab2.setIndicator("Departamento", null);
+        tab2.setContent(intentHabitaciones);
+        MainFragment.tab.addTab(tab2);
+        TabHost.TabSpec tab3 = MainFragment.tab.newTabSpec("tabDispositivos");
+        Intent intentDispositivos = new Intent().setClass(getActivity(), DispositivoActivity.class);
+        tab3.setContent(R.id.tab3);
+        tab3.setIndicator("Comedor", null);
+        tab3.setContent(intentDispositivos);
+        MainFragment.tab.addTab(tab3);
         tab.setCurrentTab(0);
+
+        tab.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                for (int i = 0; i < tab.getTabWidget().getChildCount(); i++) {
+                    tab.getTabWidget().getChildAt(i)
+                            .setBackgroundColor(getResources().getColor(R.color.colorAccent)); // unselected
+                }
+                tab.getTabWidget().getChildAt(tab.getCurrentTab())
+                        .setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark)); // selected
+            }
+        });
     }
 
     @Override
@@ -70,6 +92,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        for(int i=0;i < tab.getTabWidget().getChildCount();i++)
+        {
+            TextView tv = (TextView) tab.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
+            tv.setTextColor(getResources().getColor(R.color.colorWhite));
+        }
         mlam.dispatchResume();
     }
 }
