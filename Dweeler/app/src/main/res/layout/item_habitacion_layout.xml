@@ -24,13 +24,15 @@
                 android:id="@+id/txt_habitacion"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/colorWhite" />
 
             <TextView
                 android:id="@+id/txt_quien"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/colorWhite" />
         </LinearLayout>
 
         <ImageButton

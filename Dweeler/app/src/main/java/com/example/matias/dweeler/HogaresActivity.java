@@ -60,6 +60,13 @@ public class HogaresActivity extends ListActivity implements AdapterView.OnItemC
         MainFragment.tab.setCurrentTab(1);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getListView().setClickable(true);
+        getListView().setOnItemClickListener(this);
+    }
+
     class HogaresAdapter extends BaseAdapter{
         private ArrayList<Hogar> hogares;
         private LayoutInflater layoutInflater;
@@ -91,10 +98,10 @@ public class HogaresActivity extends ListActivity implements AdapterView.OnItemC
         }
 
         class Holder{
-            ImageView img_hogar;
-            TextView text_hogar;
-            TextView text_direccion;
-            ImageButton img_menuVertical;
+            private ImageView img_hogar;
+            private TextView text_hogar;
+            private TextView text_direccion;
+            private ImageButton img_menuVertical;
         }
 
         @Override
@@ -127,7 +134,7 @@ public class HogaresActivity extends ListActivity implements AdapterView.OnItemC
     }
 
     public int getHogarTypeIcon(int type) {
-        int resId = R.drawable.home;
+        int resId = R.drawable.home48px;
         return resId;
     }
 

@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ import java.util.ArrayList;
  * Created by Matias on 01/10/2017.
  */
 
-public class HabitacionesActivity extends ListActivity {
+public class HabitacionesActivity extends ListActivity implements AdapterView.OnItemClickListener {
 
     public static final String TAG = "HogaresAndroid";
     private HabitacionesAdapter adapter;
@@ -57,6 +59,11 @@ public class HabitacionesActivity extends ListActivity {
         habitacion.setHabitacion("DORMITORIO");
         habitacion.setQuien("Tú");
         adapter.addHabitacion(habitacion);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this, "Hola", Toast.LENGTH_LONG);
     }
 
     class HabitacionesAdapter extends BaseAdapter{

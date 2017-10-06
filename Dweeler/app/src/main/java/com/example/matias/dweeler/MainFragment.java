@@ -58,13 +58,13 @@ public class MainFragment extends Fragment {
         tab.getTabWidget().getChildAt(tab.getCurrentTab())
                 .setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         TabHost.TabSpec tab2 = MainFragment.tab.newTabSpec("tabHabitacion");
-        Intent intentHabitaciones = new Intent().setClass(getActivity(), HabitacionesActivity.class);
+        Intent intentHabitaciones = new Intent(getActivity(), HabitacionesActivity.class);
         tab2.setContent(R.id.tab1);
         tab2.setIndicator("Departamento", null);
         tab2.setContent(intentHabitaciones);
         MainFragment.tab.addTab(tab2);
         TabHost.TabSpec tab3 = MainFragment.tab.newTabSpec("tabDispositivos");
-        Intent intentDispositivos = new Intent().setClass(getActivity(), DispositivoActivity.class);
+        Intent intentDispositivos = new Intent(getActivity(), DispositivoActivity.class);
         tab3.setContent(R.id.tab3);
         tab3.setIndicator("Comedor", null);
         tab3.setContent(intentDispositivos);
@@ -96,6 +96,7 @@ public class MainFragment extends Fragment {
         {
             TextView tv = (TextView) tab.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
             tv.setTextColor(getResources().getColor(R.color.colorWhite));
+            tv.setTextSize(10);
         }
         mlam.dispatchResume();
     }
