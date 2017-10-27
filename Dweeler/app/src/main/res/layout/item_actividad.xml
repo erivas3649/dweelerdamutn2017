@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
-    android:background="@color/colorAccent">
+    android:padding="10dp"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/lblTituloActividad"
@@ -12,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:textSize="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="15dp"
         android:text="Titulo"
         android:textColor="@color/colorTextPrimary"/>
 
@@ -27,7 +28,7 @@
         android:layout_gravity="center_vertical"
         android:tint="@color/iconColor"
         android:background="@null"
-        android:src="@drawable/ico_ejecutar"/>
+        app:srcCompat="@drawable/ico_ejecutar"/>
 
     <ImageButton
         android:id="@+id/btnOpcionesActividad"
@@ -39,5 +40,5 @@
         android:layout_marginLeft="15dp"
         android:tint="@color/iconColor"
         android:background="@null"
-        android:src="@drawable/ico_mas"/>
+        app:srcCompat="@drawable/ico_mas"/>
 </LinearLayout>

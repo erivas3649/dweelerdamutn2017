@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".controladores.ActividadNotificaciones" />
+        <activity android:name=".controladores.ActividadPerfilUsuario"></activity>
     </application>
 
 </manifest>

@@ -27,11 +27,22 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actividad_principal);
+        findViewById(R.id.imgImagenUsuario).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarPerfil();
+            }
+        });
+        findViewById(R.id.txtNombreUsuario).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarPerfil();
+            }
+        });
         findViewById(R.id.btnNotificaciones).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(ActividadPrincipal.this, ActividadNotificaciones.class);
-                startActivity(i);
+                mostrarNotificaciones();
             }
         });
         findViewById(R.id.lblTitulo).setOnClickListener(new View.OnClickListener() {
@@ -83,6 +94,16 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
     private void mostrarHogares() {
         findViewById(R.id.barraPrincipal).setVisibility(View.GONE);
         replaceMainFragment(ListadoHogares.getOne(), false);
+    }
+
+    private void mostrarNotificaciones () {
+        Intent i = new Intent(ActividadPrincipal.this, ActividadNotificaciones.class);
+        startActivity(i);
+    }
+
+    private void mostrarPerfil () {
+        Intent i = new Intent(ActividadPrincipal.this, ActividadPerfilUsuario.class);
+        startActivity(i);
     }
 
     private void replaceMainFragment(Fragment f, boolean keepOnStack) {
