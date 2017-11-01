@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/imgImagenUsuario"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/usuario1" />
+
+        <TextView
+            android:id="@+id/txtNombreUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/imgImagenUsuario"
+            android:layout_centerInParent="true"
+            android:text="Eric Rivas"
+            android:textSize="18dp"
+            android:textColor="@color/colorTextPrimary" />
+
+
+        <ImageButton
+            android:id="@+id/btnNotificaciones"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:tint="@color/iconColor"
+            app:srcCompat="@drawable/ico_notificaciones" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/barraPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/btnHogares"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:tint="@color/iconColor"
+            app:srcCompat="@drawable/ico_hogar" />
+
+        <TextView
+            android:id="@+id/lblTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/btnHogares"
+            android:text="Titulo"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="14dp" />
+
+        <ImageButton
+            android:id="@+id/btnDispositivos"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btnIntegrantes"
+            android:background="@null"
+            android:tint="@color/iconColor"
+            app:srcCompat="@drawable/ico_dispositivos" />
+
+        <ImageButton
+            android:id="@+id/btnIntegrantes"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@null"
+            android:tint="@color/iconColor"
+            app:srcCompat="@drawable/ico_personas" />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/frgPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+</LinearLayout>
