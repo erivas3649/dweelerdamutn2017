@@ -14,6 +14,7 @@ import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 import ar.com.dweeler.dweeler.vistas.DetalleHabitacion;
+import ar.com.dweeler.dweeler.vistas.ListadoActividades;
 import ar.com.dweeler.dweeler.vistas.ListadoDispositivos;
 import ar.com.dweeler.dweeler.vistas.ListadoHabitaciones;
 import ar.com.dweeler.dweeler.vistas.ListadoHogares;

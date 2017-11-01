@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
-    <LinearLayout
+
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,32 +17,34 @@
             android:id="@+id/imgImagenUsuario"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:layout_weight="0"
-            android:layout_gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
             android:src="@drawable/usuario1" />
 
         <TextView
             android:id="@+id/txtNombreUsuario"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/imgImagenUsuario"
+            android:layout_centerInParent="true"
             android:text="Eric Rivas"
             android:textSize="18dp"
             android:textColor="@color/colorTextPrimary" />
+
 
         <ImageButton
             android:id="@+id/btnNotificaciones"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_weight="0"
-            android:layout_gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
             android:background="@null"
             android:tint="@color/iconColor"
             app:srcCompat="@drawable/ico_notificaciones" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/barraPrincipal"
@@ -51,7 +54,7 @@
         android:background="@color/colorPrimaryDark"
         android:orientation="horizontal"
         android:padding="10dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageButton
             android:id="@+id/btnHogares"

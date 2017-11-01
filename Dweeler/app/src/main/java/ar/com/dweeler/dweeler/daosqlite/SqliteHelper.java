@@ -27,7 +27,41 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-
+        database.execSQL("CREATE TABLE `hogares` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`nombre`\tTEXT NOT NULL,\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''0''\n" +
+                ");");
+        database.execSQL("CREATE TABLE `habitaciones` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`hogar_id`\tINTEGER NOT NULL,\n" +
+                "\t`nombre`\tTEXT NOT NULL,\n" +
+                "\t`descripcion`\tTEXT,\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''0''\n" +
+                ");");
+        database.execSQL("CREATE TABLE `dispositivos` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`nombre`\tTEXT NOT NULL,\n" +
+                "\t`estado`\tTEXT,\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''0'',\n" +
+                "\t`habitacion_id`\tINTEGER NOT NULL\n" +
+                ");");
+        database.execSQL("CREATE TABLE `actividades` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`nombre`\tINTEGER NOT NULL,\n" +
+                "\t`habitacion_id`\tINTEGER NOT NULL\n" +
+                ");");
+        database.execSQL("CREATE TABLE `integrantes` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`nombre`\tTEXT NOT NULL,\n" +
+                "\t`email`\tTEXT NOT NULL,\n" +
+                "\t`foto`\tTEXT\n" +
+                ");");
+        database.execSQL("CREATE TABLE `notificaciones` (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`mensaje`\tTEXT NOT NULL,\n" +
+                "\t`fecha`\tTEXT\n" +
+                ");");
     }
 
     @Override
