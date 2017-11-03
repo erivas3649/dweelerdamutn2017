@@ -7,6 +7,9 @@ package ar.com.dweeler.dweeler.modelos;
 public class Actividad {
 
     private String nombre;
+    private int idActividad;
+
+    public Actividad(){ }
 
     public Actividad(String nombre) {
         this.nombre = nombre;
@@ -18,5 +21,13 @@ public class Actividad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public int getIdActividad() {
+        return idActividad;
+    }
+
+    public void setIdActividad(int idActividad) {
+        this.idActividad = idActividad;
     }
 }

@@ -10,17 +10,23 @@ public class Habitacion {
 
     public enum TIPO {
 
-        COCINA(R.drawable.cocina),
-        COMEDOR(R.drawable.comedor),
-        LIVING(R.drawable.living),
-        DORMITORIO(R.drawable.dormitorio),
-        OFICINA(R.drawable.habitacion_oficina),
-        GENERICA(R.drawable.habitacion_generica);
+        COCINA(1, R.drawable.cocina),
+        COMEDOR(2, R.drawable.comedor),
+        LIVING(3, R.drawable.living),
+        DORMITORIO(4, R.drawable.dormitorio),
+        OFICINA(5, R.drawable.habitacion_oficina),
+        GENERICA(6, R.drawable.habitacion_generica);
 
         private final int icono;
+        private final int valor;
 
-        TIPO(int icono) {
+        TIPO(int valor, int icono) {
+            this.valor = valor;
             this.icono = icono;
+        }
+
+        public int getValor() {
+            return valor;
         }
 
         public int getIcono() {
@@ -30,6 +36,9 @@ public class Habitacion {
 
     private String nombre, descripcion;
     private TIPO tipo;
+    private int idHabitacion;
+
+    public Habitacion(){ }
 
     public Habitacion(String nombre) {
         this.nombre = nombre;
