@@ -30,6 +30,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         database.execSQL("CREATE TABLE `hogares` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
+                "\t`direccion`\tTEXT NULL,\n" +
                 "\t`tipo`\tINTEGER DEFAULT ''0''\n" +
                 ");");
         database.execSQL("CREATE TABLE `habitaciones` (\n" +
