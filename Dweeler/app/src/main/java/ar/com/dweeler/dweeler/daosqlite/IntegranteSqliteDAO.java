@@ -1,7 +1,11 @@
 package ar.com.dweeler.dweeler.daosqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.IntegranteDAO;
@@ -24,14 +28,71 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
         return null;
     }
 
+    public List<Integrante> findAllByHogar(Integer idHogar){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email, I.foto FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ?", new String[]{"" + idHogar});
+        List<Integrante> integrantes = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Integrante integrante = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxEmail = -1;
+            int idxIcono = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxEmail = cursor.getColumnIndex("email");
+            idxIcono = cursor.getColumnIndex("foto");
+            while (cursor.moveToNext()) {
+                integrante = new Integrante();
+                integrante.setId(cursor.getInt(idxId));
+                integrante.setNombre(cursor.getString(idxNombre));
+                integrante.setEmail(cursor.getString(idxEmail));
+                integrante.setIcono(cursor.getInt(idxIcono));
+            }
+        }
+        cursor.close();
+        db.close();
+        return integrantes;
+    }
+
     @Override
     public Integrante findOne(Integer id) {
-        return null;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("integrantes",null, "id=?", new String[]{"" + id},null,null,null);
+        Integrante integrante = null;
+        if (cursor.isBeforeFirst()) {
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxEmail = -1;
+            int idxIcono = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxEmail = cursor.getColumnIndex("email");
+            idxIcono = cursor.getColumnIndex("foto");
+            if (cursor.moveToNext()) {
+                integrante = new Integrante();
+                integrante.setId(cursor.getInt(idxId));
+                integrante.setNombre(cursor.getString(idxNombre));
+                integrante.setEmail(cursor.getString(idxEmail));
+                integrante.setIcono(cursor.getInt(idxIcono));
+            }
+        }
+        cursor.close();
+        db.close();
+        return integrante;
     }
 
     @Override
     public boolean insert(Integrante instance) {
-        return false;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", instance.getId());
+        values.put("nombre", instance.getNombre());
+        values.put("email", instance.getEmail());
+        values.put("foto", instance.getIcono());
+        int id = (int) db.insert("integrantes", null, values);
+        db.close();
+        return id != -1;
     }
 
     @Override
