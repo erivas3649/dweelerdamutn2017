@@ -29,6 +29,17 @@ public class Habitacion {
             return valor;
         }
 
+        public static TIPO valueOf(int idx){
+            TIPO retorno = null;
+            for (TIPO tipo : values()){
+                if(tipo.getValor() == idx){
+                    retorno = tipo;
+                    break;
+                }
+            }
+            return retorno;
+        }
+
         public int getIcono() {
             return this.icono;
         }
@@ -76,5 +87,13 @@ public class Habitacion {
 
     public void setTipo(TIPO tipo) {
         this.tipo = tipo;
+    }
+
+    public int getIdHabitacion() {
+        return idHabitacion;
+    }
+
+    public void setIdHabitacion(int idHabitacion) {
+        this.idHabitacion = idHabitacion;
     }
 }

@@ -58,6 +58,11 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 "\t`email`\tTEXT NOT NULL,\n" +
                 "\t`foto`\tTEXT\n" +
                 ");");
+        database.execSQL("CREATE TABLE `integrantes_hogares` (\n" +
+                "\t`hogar_id`\tINTEGER,\n" +
+                "\t`integrante_id`\tINTEGER,\n" +
+                "\t`PRIMARY KEY (hogar_id, integrante_id)`" +
+                ");");
         database.execSQL("CREATE TABLE `notificaciones` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`mensaje`\tTEXT NOT NULL,\n" +
