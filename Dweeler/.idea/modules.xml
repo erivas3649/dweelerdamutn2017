@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Dweeler.iml" filepath="$PROJECT_DIR$/Dweeler.iml" />
+      <module fileurl="file:///media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler/Dweeler.iml" filepath="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler/Dweeler.iml" />
       <module fileurl="file:///media/nemesys/Datos/Documentos/Proyectos/UTN/Android/Dweeler/Dweeler.iml" filepath="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/Dweeler/Dweeler.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler/app/app.iml" filepath="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler/app/app.iml" />
       <module fileurl="file:///media/nemesys/Datos/Documentos/Proyectos/UTN/Android/Dweeler/app/app.iml" filepath="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/Dweeler/app/app.iml" />
     </modules>
   </component>

@@ -53,7 +53,7 @@ public class ActividadSqliteDAO implements ActividadDAO {
     @Override
     public Actividad findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query("habitaciones",null, "id=?", new String[]{"" + id},null,null,null);
+        Cursor cursor = db.query("actividades",null, "id=?", new String[]{"" + id},null,null,null);
         Actividad actividad = null;
         if (cursor.isBeforeFirst()) {
             int idxId = -1;
