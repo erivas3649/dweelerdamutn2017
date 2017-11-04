@@ -10,26 +10,47 @@ public class Dispositivo {
 
     public enum TIPO {
 
-        SOCKET_TRIPLE(R.drawable.socket),
-        SOCKET_SIMPLE(R.drawable.enchufe),
-        BOTON(R.drawable.boboton),
-        LAMPARA(R.drawable.lampara),
-        LLAVERO(R.drawable.llavero),
-        GENERICO(R.drawable.dispositivo_generico);
+        SOCKET_TRIPLE(1, R.drawable.socket),
+        SOCKET_SIMPLE(2, R.drawable.enchufe),
+        BOTON(3, R.drawable.boboton),
+        LAMPARA(4, R.drawable.lampara),
+        LLAVERO(5, R.drawable.llavero),
+        GENERICO(6, R.drawable.dispositivo_generico);
 
         private final int icono;
+        private final int valor;
 
-        TIPO(int icono) {
+        TIPO(int valor, int icono) {
+            this.valor = valor;
             this.icono = icono;
         }
 
         public int getIcono() {
             return this.icono;
         }
+
+        public int getValor() {
+            return valor;
+        }
+
+        public static TIPO valueOf(int idx) {
+            TIPO retorno = null;
+            for (TIPO tipo : values()){
+                if (tipo.getValor() == idx) {
+                    retorno = tipo;
+                    break;
+                }
+            }
+            return retorno;
+        }
     }
 
+    private int id;
     private String nombre, estado;
     private TIPO tipo;
+
+    public Dispositivo() {
+    }
 
     public Dispositivo(String nombre) {
         this.nombre = nombre;
@@ -43,6 +64,14 @@ public class Dispositivo {
     public Dispositivo(String nombre, String estado, TIPO tipo) {
         this(nombre, estado);
         this.tipo = tipo;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -68,4 +97,5 @@ public class Dispositivo {
     public void setTipo(TIPO tipo) {
         this.tipo = tipo;
     }
+
 }

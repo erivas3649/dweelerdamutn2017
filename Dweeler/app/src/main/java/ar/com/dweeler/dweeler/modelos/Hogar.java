@@ -28,6 +28,17 @@ public class Hogar {
         public int getValor() {
             return valor;
         }
+
+        public static TIPO valueOf(int idx) {
+            TIPO retorno = null;
+            for (TIPO tipo : values()){
+                if (tipo.getValor() == idx) {
+                    retorno = tipo;
+                    break;
+                }
+            }
+            return retorno;
+        }
     };
 
     private int id;
@@ -81,23 +92,5 @@ public class Hogar {
 
     public void setTipo(TIPO tipo) {
         this.tipo = tipo;
-    }
-
-    public static TIPO convertirTipo(int idx) {
-        TIPO tipo = null;
-         switch (idx) {
-             case 1:
-                 tipo = TIPO.ESPACIO;
-                 break;
-             case 2:
-                 tipo = TIPO.HOGAR;
-                 break;
-             case 3:
-                 tipo = TIPO.OFICINA;
-                 break;
-             default:
-                 tipo = TIPO.HOGAR;
-         }
-     return tipo;
     }
 }

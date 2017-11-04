@@ -43,7 +43,7 @@ public class HogarSqliteDAO implements HogarDAO {
                 hogar.setId(cursor.getInt(idxId));
                 hogar.setNombre(cursor.getString(idxNombre));
                 hogar.setDireccion(cursor.getString(idxDireccion));
-                hogar.setTipo(Hogar.convertirTipo(cursor.getInt(idxTipo)));
+                hogar.setTipo(Hogar.TIPO.valueOf(cursor.getInt(idxTipo)));
                 hogares.add(hogar);
             }
         }
@@ -71,7 +71,7 @@ public class HogarSqliteDAO implements HogarDAO {
                 hogar.setId(cursor.getInt(idxId));
                 hogar.setNombre(cursor.getString(idxNombre));
                 hogar.setDireccion(cursor.getString(idxDireccion));
-                hogar.setTipo(Hogar.convertirTipo(cursor.getInt(idxTipo)));
+                hogar.setTipo(Hogar.TIPO.valueOf(cursor.getInt(idxTipo)));
             }
         }
         cursor.close();

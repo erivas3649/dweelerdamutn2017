@@ -31,20 +31,20 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`direccion`\tTEXT NULL,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''0''\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''1''\n" +
                 ");");
         database.execSQL("CREATE TABLE `habitaciones` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`hogar_id`\tINTEGER NOT NULL,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`descripcion`\tTEXT,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''0''\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''1''\n" +
                 ");");
         database.execSQL("CREATE TABLE `dispositivos` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`estado`\tTEXT,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''0'',\n" +
+                "\t`tipo`\tINTEGER DEFAULT ''1'',\n" +
                 "\t`habitacion_id`\tINTEGER NOT NULL\n" +
                 ");");
         database.execSQL("CREATE TABLE `actividades` (\n" +

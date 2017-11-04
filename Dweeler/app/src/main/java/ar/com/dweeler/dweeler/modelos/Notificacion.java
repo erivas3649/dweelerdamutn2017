@@ -11,16 +11,25 @@ import java.util.Date;
 public class Notificacion {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+    private int id;
     private String mensaje;
     private Date fecha;
+
+    public Notificacion() {
+
+    }
 
     public Notificacion (String mensaje, Date fecha) {
         this.mensaje = mensaje;
         this.fecha =fecha;
     }
 
-    public static SimpleDateFormat getDateFormat() {
-        return dateFormat;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMensaje() {

@@ -1,11 +1,16 @@
 package ar.com.dweeler.dweeler.daosqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.DispositivoDAO;
 import ar.com.dweeler.dweeler.modelos.Dispositivo;
+import ar.com.dweeler.dweeler.modelos.Hogar;
 
 /**
  * Created by nemesys on 27/10/17.
@@ -24,14 +29,72 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
         return null;
     }
 
+    public List<Dispositivo> findAllByHogar(Integer hogarId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT d.id, d.nombre, d.estado, d.tipo FROM dispositivos d JOIN habitaciones h ON d.habitacion_id=h.id WHERE h.hogar_id = ?", new String[]{"" + hogarId});
+        List<Dispositivo> dispositivos = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Dispositivo dispositivo = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxTipo = -1;
+            int idxEstado = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxEstado = cursor.getColumnIndex("estado");
+            idxTipo = cursor.getColumnIndex("tipo");
+            while (cursor.moveToNext()) {
+                dispositivo = new Dispositivo();
+                dispositivo.setId(cursor.getInt(idxId));
+                dispositivo.setNombre(cursor.getString(idxNombre));
+                dispositivo.setEstado(cursor.getString(idxEstado));
+                dispositivo.setTipo(Dispositivo.TIPO.valueOf(cursor.getInt(idxTipo)));
+                dispositivos.add(dispositivo);
+            }
+        }
+        cursor.close();
+        db.close();
+        return dispositivos;
+    }
+
     @Override
     public Dispositivo findOne(Integer id) {
-        return null;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("dispositivos",null, "id=?", new String[]{"" + id},null,null,null);
+        Dispositivo dispositivo = null;
+        if (cursor.isBeforeFirst()) {
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxTipo = -1;
+            int idxDireccion = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxDireccion = cursor.getColumnIndex("direccion");
+            idxTipo = cursor.getColumnIndex("tipo");
+            if (cursor.moveToNext()) {
+                dispositivo = new Dispositivo();
+                dispositivo.setId(cursor.getInt(idxId));
+                dispositivo.setNombre(cursor.getString(idxNombre));
+                dispositivo.setEstado(cursor.getString(idxDireccion));
+                dispositivo.setTipo(Dispositivo.TIPO.valueOf(cursor.getInt(idxTipo)));
+            }
+        }
+        cursor.close();
+        db.close();
+        return dispositivo;
     }
 
     @Override
     public boolean insert(Dispositivo instance) {
-        return false;
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("id", instance.getId());
+        values.put("nombre", instance.getNombre());
+        values.put("estado", instance.getEstado());
+        values.put("tipo", instance.getTipo().getValor());
+        int id = (int) db.insert("dispositivos", null, values);
+        db.close();
+        return id != -1;
     }
 
     @Override
