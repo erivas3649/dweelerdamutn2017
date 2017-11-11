@@ -1,5 +1,8 @@
 package ar.com.dweeler.dweeler.modelos;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by nemesys on 24/10/17.
  */
@@ -7,7 +10,7 @@ package ar.com.dweeler.dweeler.modelos;
 public class Actividad {
 
     private String nombre;
-    private int idActividad;
+    private int id;
 
     public Actividad(){ }
 
@@ -23,11 +26,18 @@ public class Actividad {
         this.nombre = nombre;
     }
 
-    public int getIdActividad() {
-        return idActividad;
+    public int getId() {
+        return id;
     }
 
-    public void setIdActividad(int idActividad) {
-        this.idActividad = idActividad;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static Actividad parse (JSONObject json) throws JSONException {
+        Actividad a = new Actividad();
+        a.setId(json.getInt("id"));
+        a.setNombre(json.getString("nombre"));
+        return a;
     }
 }

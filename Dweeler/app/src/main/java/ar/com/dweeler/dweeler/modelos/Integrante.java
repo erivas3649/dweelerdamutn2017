@@ -1,5 +1,8 @@
 package ar.com.dweeler.dweeler.modelos;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ar.com.dweeler.dweeler.R;
 
 /**
@@ -57,5 +60,13 @@ public class Integrante {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public static Integrante parse (JSONObject json) throws JSONException {
+        Integrante i = new Integrante();
+        i.setId(json.getInt("id"));
+        i.setNombre(json.getString("nombre"));
+        i.setEmail(json.getString("email"));
+        return i;
     }
 }

@@ -1,5 +1,8 @@
 package ar.com.dweeler.dweeler.modelos;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ar.com.dweeler.dweeler.R;
 
 /**
@@ -92,5 +95,14 @@ public class Hogar {
 
     public void setTipo(TIPO tipo) {
         this.tipo = tipo;
+    }
+
+    public static Hogar parse(JSONObject json) throws JSONException {
+        Hogar h = new Hogar();
+        h.setId(json.getInt("id"));
+        h.setNombre(json.getString("nombre"));
+        h.setDireccion(json.getString("direccion"));
+        h.setTipo(TIPO.valueOf(json.getInt("tipo")));
+        return h;
     }
 }

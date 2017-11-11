@@ -40,7 +40,7 @@ public class ActividadSqliteDAO implements ActividadDAO {
             idxNombre = cursor.getColumnIndex("nombre");
             while (cursor.moveToNext()) {
                 actividad = new Actividad();
-                actividad.setIdActividad(cursor.getInt(idxId));
+                actividad.setId(cursor.getInt(idxId));
                 actividad.setNombre(cursor.getString(idxNombre));
                 actividades.add(actividad);
             }
@@ -62,7 +62,7 @@ public class ActividadSqliteDAO implements ActividadDAO {
             idxNombre = cursor.getColumnIndex("nombre");
             if (cursor.moveToNext()) {
                 actividad = new Actividad();
-                actividad.setIdActividad(cursor.getInt(idxId));
+                actividad.setId(cursor.getInt(idxId));
                 actividad.setNombre(cursor.getString(idxNombre));
             }
         }
@@ -75,7 +75,7 @@ public class ActividadSqliteDAO implements ActividadDAO {
     public boolean insert(Actividad instance) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", instance.getIdActividad());
+        values.put("id", instance.getId());
         values.put("nombre", instance.getNombre());
         int id = (int) db.insert("actividades", null, values);
         db.close();

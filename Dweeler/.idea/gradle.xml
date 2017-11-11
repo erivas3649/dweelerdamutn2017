@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler" />
+            <option value="/media/nemesys/Datos/Documentos/Proyectos/UTN/Android/dweelerdamutn2017/Dweeler/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

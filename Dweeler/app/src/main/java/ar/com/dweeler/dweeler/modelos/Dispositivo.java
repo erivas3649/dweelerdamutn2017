@@ -1,5 +1,8 @@
 package ar.com.dweeler.dweeler.modelos;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import ar.com.dweeler.dweeler.R;
 
 /**
@@ -96,6 +99,15 @@ public class Dispositivo {
 
     public void setTipo(TIPO tipo) {
         this.tipo = tipo;
+    }
+
+    public static Dispositivo parse (JSONObject json) throws JSONException {
+        Dispositivo di = new Dispositivo();
+        di.setId(json.getInt("id"));
+        di.setNombre(json.getString("nombre"));
+        di.setEstado(json.getString("estado"));
+        di.setTipo(TIPO.valueOf(json.getInt("tipo")));
+        return di;
     }
 
 }

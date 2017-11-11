@@ -41,7 +41,7 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
             idxTipo = cursor.getColumnIndex("tipo");
             while (cursor.moveToNext()) {
                 habitacion = new Habitacion();
-                habitacion.setIdHabitacion(cursor.getInt(idxId));
+                habitacion.setId(cursor.getInt(idxId));
                 habitacion.setNombre(cursor.getString(idxNombre));
                 habitacion.setDescripcion(cursor.getString(idxDescripcion));
                 habitacion.setTipo(Habitacion.TIPO.valueOf(cursor.getInt(idxTipo)));
@@ -69,7 +69,7 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
             idxTipo = cursor.getColumnIndex("tipo");
             if (cursor.moveToNext()) {
                 habitacion = new Habitacion();
-                habitacion.setIdHabitacion(cursor.getInt(idxId));
+                habitacion.setId(cursor.getInt(idxId));
                 habitacion.setNombre(cursor.getString(idxNombre));
                 habitacion.setDescripcion(cursor.getString(idxDescripcion));
                 habitacion.setTipo(Habitacion.TIPO.valueOf(cursor.getInt(idxTipo)));
@@ -84,7 +84,7 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
     public boolean insert(Habitacion instance) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", instance.getIdHabitacion());
+        values.put("id", instance.getId());
         values.put("nombre", instance.getNombre());
         values.put("descripcion", instance.getDescripcion());
         values.put("tipo", instance.getTipo().getValor());
