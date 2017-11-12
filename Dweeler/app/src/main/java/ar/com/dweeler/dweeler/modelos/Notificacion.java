@@ -1,5 +1,8 @@
 package ar.com.dweeler.dweeler.modelos;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,5 +53,13 @@ public class Notificacion {
 
     public String getFechaFormateada() {
         return dateFormat.format(this.fecha);
+    }
+
+    public static Notificacion parse(JSONObject json) throws JSONException {
+        Notificacion n = new Notificacion();
+        n.setId(json.getInt("id"));
+        n.setMensaje(json.getString("mensaje"));
+        //n.setFecha(json.getString("fecha"));
+        return n;
     }
 }

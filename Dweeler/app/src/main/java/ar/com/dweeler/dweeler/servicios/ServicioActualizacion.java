@@ -31,6 +31,7 @@ import ar.com.dweeler.dweeler.modelos.Dispositivo;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 import ar.com.dweeler.dweeler.modelos.Integrante;
+import ar.com.dweeler.dweeler.modelos.Notificacion;
 
 /**
  * Created by nemesys on 10/11/17.
@@ -102,7 +103,14 @@ public class ServicioActualizacion {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                try {
+                    JSONArray notificaciones = response.getJSONArray("notificaciones");
+                    for (int i = 0; i < notificaciones.length(); i++) {
+                        Notificacion n = Notificacion.parse(notificaciones.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 listener.onActualizado();
             }
         }, null);

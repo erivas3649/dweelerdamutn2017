@@ -9,4 +9,5 @@ import ar.com.dweeler.dweeler.modelos.Notificacion;
  */
 
 public interface NotificacionDAO extends BasicDAO<Notificacion, Integer> {
+
 }
