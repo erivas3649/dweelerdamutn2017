@@ -14,6 +14,8 @@ import java.util.List;
 
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.adaptadores.ActividadesAdapter;
+import ar.com.dweeler.dweeler.dao.ActividadDAO;
+import ar.com.dweeler.dweeler.daosqlite.ActividadSqliteDAO;
 import ar.com.dweeler.dweeler.modelos.Actividad;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
 
@@ -23,6 +25,7 @@ import ar.com.dweeler.dweeler.modelos.Habitacion;
 public class ListadoActividades extends ListFragment {
 
 
+    private ActividadDAO acdao;
     private ActividadesAdapter adapter;
     private Habitacion habitacion;
 
@@ -37,11 +40,8 @@ public class ListadoActividades extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<Actividad> actividades = new ArrayList<>();
-        actividades.add(new Actividad("Encender Todas las Lamparas"));
-        actividades.add(new Actividad("Ver Televisión"));
-        actividades.add(new Actividad("Todas las Lamparas al 50%"));
-        adapter = new ActividadesAdapter(getContext(), actividades);
+        acdao = new ActividadSqliteDAO(getContext().getApplicationContext());
+        adapter = new ActividadesAdapter(getContext(), acdao.findAllByHabitacion(habitacion.getId()));
         setListAdapter(adapter);
     }
 

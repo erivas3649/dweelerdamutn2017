@@ -13,11 +13,14 @@ import java.util.ArrayList;
 
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.adaptadores.IntegrantesAdapter;
+import ar.com.dweeler.dweeler.dao.IntegranteDAO;
+import ar.com.dweeler.dweeler.daosqlite.IntegranteSqliteDAO;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 import ar.com.dweeler.dweeler.modelos.Integrante;
 
 public class ListadoIntegrantes extends ListFragment {
 
+    private IntegranteDAO indao;
     private IntegrantesAdapter adapter;
     private Hogar hogar;
 
@@ -33,10 +36,8 @@ public class ListadoIntegrantes extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Integrante> integrantes = new ArrayList<>();
-        integrantes.add(new Integrante("Eric Rivas", "erivas@dweeler.com", R.drawable.usuario1));
-        integrantes.add(new Integrante("Matias Pavan", "matias@dweeler.com", R.drawable.usuario2));
-        adapter = new IntegrantesAdapter(getContext(), integrantes);
+        indao = new IntegranteSqliteDAO(getContext().getApplicationContext());
+        adapter = new IntegrantesAdapter(getContext(), indao.findAllByHogar(hogar.getId()));
         setListAdapter(adapter);
     }
 

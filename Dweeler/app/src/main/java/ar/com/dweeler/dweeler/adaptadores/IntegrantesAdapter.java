@@ -57,7 +57,7 @@ public class IntegrantesAdapter extends ListAdapter<Integrante> {
         public void refresh (Integrante i) {
             titulo.setText(i.getNombre());
             subtitulo.setText(i.getEmail());
-            icono.setImageResource(i.getIcono());
+            icono.setImageResource(R.drawable.usuario1);
         }
     }
 }

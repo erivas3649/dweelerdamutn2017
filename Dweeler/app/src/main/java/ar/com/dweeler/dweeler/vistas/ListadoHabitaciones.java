@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.adaptadores.HabitacionesAdapter;
+import ar.com.dweeler.dweeler.dao.HabitacionDAO;
+import ar.com.dweeler.dweeler.daosqlite.HabitacionSqliteDAO;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 
@@ -23,6 +25,7 @@ public class ListadoHabitaciones extends ListFragment {
         void onHabitacionSelected(Habitacion h);
     }
 
+    private HabitacionDAO hadao;
     private HabitacionesAdapter adapter;
     private ListadoHabitacionesListener listener;
     private Hogar hogar;
@@ -49,16 +52,8 @@ public class ListadoHabitaciones extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Habitacion> habitaciones = new ArrayList<>();
-        habitaciones.add(new Habitacion("Comedor", "Tu", Habitacion.TIPO.COMEDOR));
-        habitaciones.add(new Habitacion("Cocina", "Tu", Habitacion.TIPO.COCINA));
-        habitaciones.add(new Habitacion("Living", "Tu", Habitacion.TIPO.LIVING));
-        habitaciones.add(new Habitacion("Dormitorio Principal", "Tu", Habitacion.TIPO.DORMITORIO));
-        habitaciones.add(new Habitacion("Dormitorio Niños", "Tu", Habitacion.TIPO.DORMITORIO));
-        habitaciones.add(new Habitacion("Oficina", "Tu", Habitacion.TIPO.OFICINA));
-        habitaciones.add(new Habitacion("Porche", "Tu", Habitacion.TIPO.GENERICA));
-        habitaciones.add(new Habitacion("Garage", "Tu", Habitacion.TIPO.GENERICA));
-        adapter = new HabitacionesAdapter(getContext(), habitaciones);
+        hadao = new HabitacionSqliteDAO(getContext().getApplicationContext());
+        adapter = new HabitacionesAdapter(getContext(), hadao.findAllByHogar(hogar.getId()));
         setListAdapter(adapter);
     }
 

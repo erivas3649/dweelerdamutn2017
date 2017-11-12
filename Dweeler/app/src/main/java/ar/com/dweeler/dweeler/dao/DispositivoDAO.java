@@ -11,4 +11,5 @@ import ar.com.dweeler.dweeler.modelos.Hogar;
 
 public interface DispositivoDAO extends BasicDAO<Dispositivo, Integer> {
     List<Dispositivo> findAllByHogar(Integer hogarId);
+    List<Dispositivo> findAllByHabitacion(Integer habitacionId);
 }

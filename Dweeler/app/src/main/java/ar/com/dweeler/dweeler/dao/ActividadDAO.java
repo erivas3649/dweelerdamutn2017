@@ -1,5 +1,7 @@
 package ar.com.dweeler.dweeler.dao;
 
+import java.util.List;
+
 import ar.com.dweeler.dweeler.modelos.Actividad;
 
 /**
@@ -7,4 +9,5 @@ import ar.com.dweeler.dweeler.modelos.Actividad;
  */
 
 public interface ActividadDAO extends BasicDAO<Actividad, Integer>{
+    List<Actividad> findAllByHabitacion(Integer habitacionId);
 }

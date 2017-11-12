@@ -13,6 +13,8 @@ import java.util.Calendar;
 
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.adaptadores.NotificacionesAdapter;
+import ar.com.dweeler.dweeler.dao.NotificacionDAO;
+import ar.com.dweeler.dweeler.daosqlite.NotificacionSqliteDAO;
 import ar.com.dweeler.dweeler.modelos.Notificacion;
 
 /**
@@ -20,6 +22,7 @@ import ar.com.dweeler.dweeler.modelos.Notificacion;
  */
 public class ListadoNotificaciones extends ListFragment {
 
+    private NotificacionDAO nodao;
     private NotificacionesAdapter adapter;
 
     public ListadoNotificaciones() {}
@@ -33,11 +36,8 @@ public class ListadoNotificaciones extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Notificacion> notificaciones = new ArrayList<>();
-        notificaciones.add(new Notificacion("Eric ha agregado a Matias a Departamento Cordoba", Calendar.getInstance().getTime()));
-        notificaciones.add(new Notificacion("Matias dice: che me olvide las llaves", Calendar.getInstance().getTime()));
-        notificaciones.add(new Notificacion("Dweeler ha iniciado el ahorro de energia en las habitaciones desocupadas", Calendar.getInstance().getTime()));
-        adapter = new NotificacionesAdapter(getContext(), notificaciones);
+        nodao = new NotificacionSqliteDAO(getContext().getApplicationContext());
+        adapter = new NotificacionesAdapter(getContext(), nodao.findAll());
         setListAdapter(adapter);
     }
 }

@@ -12,7 +12,7 @@ import ar.com.dweeler.dweeler.R;
 public class Integrante {
 
     private String nombre, email;
-    private int icono, id;
+    private int id;
 
     public Integrante(){ }
 
@@ -23,11 +23,6 @@ public class Integrante {
     public Integrante (String nombre, String email) {
         this(nombre);
         this.email = email;
-    }
-
-    public Integrante (String nombre, String email, int icono) {
-        this(nombre, email);
-        this.icono = icono;
     }
 
     public String getNombre() {
@@ -44,14 +39,6 @@ public class Integrante {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getIcono() {
-        return icono;
-    }
-
-    public void setIcono(int icono) {
-        this.icono = icono;
     }
 
     public int getId() {

@@ -32,27 +32,15 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
     public List<Dispositivo> findAllByHogar(Integer hogarId) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT d.id, d.nombre, d.estado, d.tipo FROM dispositivos d JOIN habitaciones h ON d.habitacion_id=h.id WHERE h.hogar_id = ?", new String[]{"" + hogarId});
-        List<Dispositivo> dispositivos = new ArrayList<>();
-        if (cursor.isBeforeFirst()) {
-            Dispositivo dispositivo = null;
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxTipo = -1;
-            int idxEstado = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxEstado = cursor.getColumnIndex("estado");
-            idxTipo = cursor.getColumnIndex("tipo");
-            while (cursor.moveToNext()) {
-                dispositivo = new Dispositivo();
-                dispositivo.setId(cursor.getInt(idxId));
-                dispositivo.setNombre(cursor.getString(idxNombre));
-                dispositivo.setEstado(cursor.getString(idxEstado));
-                dispositivo.setTipo(Dispositivo.TIPO.valueOf(cursor.getInt(idxTipo)));
-                dispositivos.add(dispositivo);
-            }
-        }
-        cursor.close();
+        List<Dispositivo> dispositivos = traverseCursor(cursor);
+        db.close();
+        return dispositivos;
+    }
+
+    public List<Dispositivo> findAllByHabitacion(Integer habitacionId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("dispositivos",null, "habitacion_id=?", new String[]{"" + habitacionId},null,null,null);
+        List<Dispositivo> dispositivos = traverseCursor(cursor);
         db.close();
         return dispositivos;
     }
@@ -61,27 +49,9 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
     public Dispositivo findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("dispositivos",null, "id=?", new String[]{"" + id},null,null,null);
-        Dispositivo dispositivo = null;
-        if (cursor.isBeforeFirst()) {
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxTipo = -1;
-            int idxDireccion = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxDireccion = cursor.getColumnIndex("direccion");
-            idxTipo = cursor.getColumnIndex("tipo");
-            if (cursor.moveToNext()) {
-                dispositivo = new Dispositivo();
-                dispositivo.setId(cursor.getInt(idxId));
-                dispositivo.setNombre(cursor.getString(idxNombre));
-                dispositivo.setEstado(cursor.getString(idxDireccion));
-                dispositivo.setTipo(Dispositivo.TIPO.valueOf(cursor.getInt(idxTipo)));
-            }
-        }
-        cursor.close();
+        List<Dispositivo> dispositivos = traverseCursor(cursor);
         db.close();
-        return dispositivo;
+        return dispositivos.size() > 0 ? dispositivos.get(0) : null;
     }
 
     @Override
@@ -105,5 +75,30 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
     @Override
     public boolean remove(Dispositivo instance) {
         return false;
+    }
+
+    private List<Dispositivo> traverseCursor (Cursor cursor) {
+        List<Dispositivo> dispositivos = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Dispositivo dispositivo = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxTipo = -1;
+            int idxEstado = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxEstado = cursor.getColumnIndex("estado");
+            idxTipo = cursor.getColumnIndex("tipo");
+            while (cursor.moveToNext()) {
+                dispositivo = new Dispositivo();
+                dispositivo.setId(cursor.getInt(idxId));
+                dispositivo.setNombre(cursor.getString(idxNombre));
+                dispositivo.setEstado(cursor.getString(idxEstado));
+                dispositivo.setTipo(Dispositivo.TIPO.valueOf(cursor.getInt(idxTipo)));
+                dispositivos.add(dispositivo);
+            }
+        }
+        cursor.close();
+        return dispositivos;
     }
 }

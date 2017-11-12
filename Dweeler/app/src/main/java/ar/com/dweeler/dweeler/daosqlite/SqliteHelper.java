@@ -1,5 +1,6 @@
 package ar.com.dweeler.dweeler.daosqlite;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -31,20 +32,20 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`direccion`\tTEXT NULL,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''1''\n" +
+                "\t`tipo`\tINTEGER DEFAULT '1'\n" +
                 ");");
         database.execSQL("CREATE TABLE `habitaciones` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`hogar_id`\tINTEGER NOT NULL,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`descripcion`\tTEXT,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''1''\n" +
+                "\t`tipo`\tINTEGER DEFAULT '1'\n" +
                 ");");
         database.execSQL("CREATE TABLE `dispositivos` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`estado`\tTEXT,\n" +
-                "\t`tipo`\tINTEGER DEFAULT ''1'',\n" +
+                "\t`tipo`\tINTEGER DEFAULT '1',\n" +
                 "\t`habitacion_id`\tINTEGER NOT NULL\n" +
                 ");");
         database.execSQL("CREATE TABLE `actividades` (\n" +
@@ -56,7 +57,6 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
                 "\t`email`\tTEXT NOT NULL,\n" +
-                "\t`foto`\tTEXT\n" +
                 ");");
         database.execSQL("CREATE TABLE `integrantes_hogares` (\n" +
                 "\t`hogar_id`\tINTEGER,\n" +
@@ -68,10 +68,30 @@ public class SqliteHelper extends SQLiteOpenHelper {
                 "\t`mensaje`\tTEXT NOT NULL,\n" +
                 "\t`fecha`\tTEXT\n" +
                 ");");
+        mockData(database);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int i, int i1) {
 
+    }
+
+    protected void mockData (SQLiteDatabase database) {
+        database.execSQL("INSERT INTO hogares VALUES (1, 'Departamento Cordoba', 'Av. Poeta Lugones 338', 1)");
+        database.execSQL("INSERT INTO habitaciones VALUES (1, 1, 'Cocina', '', 1)");
+        database.execSQL("INSERT INTO habitaciones VALUES (2, 1, 'Comedor', '', 2)");
+        database.execSQL("INSERT INTO habitaciones VALUES (3, 1, 'Dormitorio', '', 4)");
+        database.execSQL("INSERT INTO habitaciones VALUES (4, 1, 'Oficina', '', 5)");
+        database.execSQL("INSERT INTO actividades VALUES (1, 'Encender Luces', 2)");
+        database.execSQL("INSERT INTO actividades VALUES (2, 'Apagar Luces', 2)");
+        database.execSQL("INSERT INTO dispositivos VALUES (1, 'Lampara Principal', 'En Linea', 4, 2)");
+        database.execSQL("INSERT INTO dispositivos VALUES (2, 'Cafetera', 'En Linea', 2, 1)");
+        database.execSQL("INSERT INTO dispositivos VALUES (3, 'Lampara Mesa Noche', 'En Linea', 2, 3)");
+        database.execSQL("INSERT INTO integrantes VALUES (1, 'Eric Rivas', 'erivas3649@gmail.com')");
+        database.execSQL("INSERT INTO integrantes VALUES (2, 'Matias Pavan', 'matipavan@gmail.com')");
+        database.execSQL("INSERT INTO integrantes_hogares VALUES (1, 1)");
+        database.execSQL("INSERT INTO integrantes_hogares VALUES (1, 2)");
+        database.execSQL("INSERT INTO notificaciones VALUES (1, 'Dweeler ha iniciado el modo de ahorro de energia', '2017-11-04')");
+        database.execSQL("INSERT INTO notificaciones VALUES (1, 'Eric ha agregado a Matias a Departamento Cordoba', '2017-11-06')");
     }
 }

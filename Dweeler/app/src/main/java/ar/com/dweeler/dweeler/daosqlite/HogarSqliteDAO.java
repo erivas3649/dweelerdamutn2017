@@ -27,27 +27,7 @@ public class HogarSqliteDAO implements HogarDAO {
     public List<Hogar> findAll() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("hogares",null,null,null,null,null,null);
-        List<Hogar> hogares = new ArrayList<>();
-        if (cursor.isBeforeFirst()) {
-            Hogar hogar = null;
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxTipo = -1;
-            int idxDireccion = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxDireccion = cursor.getColumnIndex("direccion");
-            idxTipo = cursor.getColumnIndex("tipo");
-            while (cursor.moveToNext()) {
-                hogar = new Hogar();
-                hogar.setId(cursor.getInt(idxId));
-                hogar.setNombre(cursor.getString(idxNombre));
-                hogar.setDireccion(cursor.getString(idxDireccion));
-                hogar.setTipo(Hogar.TIPO.valueOf(cursor.getInt(idxTipo)));
-                hogares.add(hogar);
-            }
-        }
-        cursor.close();
+        List<Hogar> hogares = traverseCursor(cursor);
         db.close();
         return hogares;
     }
@@ -56,27 +36,9 @@ public class HogarSqliteDAO implements HogarDAO {
     public Hogar findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("hogares",null, "id=?", new String[]{"" + id},null,null,null);
-        Hogar hogar = null;
-        if (cursor.isBeforeFirst()) {
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxTipo = -1;
-            int idxDireccion = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxDireccion = cursor.getColumnIndex("direccion");
-            idxTipo = cursor.getColumnIndex("tipo");
-            if (cursor.moveToNext()) {
-                hogar = new Hogar();
-                hogar.setId(cursor.getInt(idxId));
-                hogar.setNombre(cursor.getString(idxNombre));
-                hogar.setDireccion(cursor.getString(idxDireccion));
-                hogar.setTipo(Hogar.TIPO.valueOf(cursor.getInt(idxTipo)));
-            }
-        }
-        cursor.close();
+        List<Hogar> hogares = traverseCursor(cursor);
         db.close();
-        return hogar;
+        return hogares.size() > 0 ? hogares.get(0) : null;
     }
 
     @Override
@@ -100,5 +62,30 @@ public class HogarSqliteDAO implements HogarDAO {
     @Override
     public boolean remove(Hogar instance) {
         return false;
+    }
+
+    private List<Hogar> traverseCursor (Cursor cursor) {
+        List<Hogar> hogares = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Hogar hogar = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxTipo = -1;
+            int idxDireccion = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxDireccion = cursor.getColumnIndex("direccion");
+            idxTipo = cursor.getColumnIndex("tipo");
+            while (cursor.moveToNext()) {
+                hogar = new Hogar();
+                hogar.setId(cursor.getInt(idxId));
+                hogar.setNombre(cursor.getString(idxNombre));
+                hogar.setDireccion(cursor.getString(idxDireccion));
+                hogar.setTipo(Hogar.TIPO.valueOf(cursor.getInt(idxTipo)));
+                hogares.add(hogar);
+            }
+        }
+        cursor.close();
+        return hogares;
     }
 }

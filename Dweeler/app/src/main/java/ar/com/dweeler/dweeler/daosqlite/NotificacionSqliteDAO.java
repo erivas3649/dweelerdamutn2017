@@ -31,26 +31,7 @@ public class NotificacionSqliteDAO implements NotificacionDAO {
     public List<Notificacion> findAll() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("notificaciones",null,null,null,null,null,null);
-        List<Notificacion> notificaciones = new ArrayList<>();
-        if (cursor.isBeforeFirst()) {
-            Notificacion notificacion = null;
-            int idxId = -1;
-            int idxMensaje = -1;
-            int idxFecha = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxMensaje = cursor.getColumnIndex("mensaje");
-            idxFecha = cursor.getColumnIndex("fecha");
-            while (cursor.moveToNext()) {
-                notificacion = new Notificacion();
-                notificacion.setId(cursor.getInt(idxId));
-                notificacion.setMensaje(cursor.getString(idxMensaje));
-                try {
-                    notificacion.setFecha(dateFormat.parse(cursor.getString(idxFecha)));
-                } catch (ParseException e) {}
-                notificaciones.add(notificacion);
-            }
-        }
-        cursor.close();
+        List<Notificacion> notificaciones = traverseCursor(cursor);
         db.close();
         return notificaciones;
     }
@@ -58,27 +39,10 @@ public class NotificacionSqliteDAO implements NotificacionDAO {
     @Override
     public Notificacion findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.query("notificaciones",null,null,null,null,null,null);
-        Notificacion notificacion = null;
-        if (cursor.isBeforeFirst()) {
-            int idxId = -1;
-            int idxMensaje = -1;
-            int idxFecha = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxMensaje = cursor.getColumnIndex("mensaje");
-            idxFecha = cursor.getColumnIndex("fecha");
-            if (cursor.moveToNext()) {
-                notificacion = new Notificacion();
-                notificacion.setId(cursor.getInt(idxId));
-                notificacion.setMensaje(cursor.getString(idxMensaje));
-                try {
-                    notificacion.setFecha(dateFormat.parse(cursor.getString(idxFecha)));
-                } catch (ParseException e) {}
-            }
-        }
-        cursor.close();
+        Cursor cursor = db.query("notificaciones",null, "id=?", new String[] {"" + id},null,null,null);
+        List<Notificacion> notificaciones = traverseCursor(cursor);
         db.close();
-        return notificacion;
+        return notificaciones.size() > 0 ? notificaciones.get(0) : null;
     }
 
     @Override
@@ -101,5 +65,29 @@ public class NotificacionSqliteDAO implements NotificacionDAO {
     @Override
     public boolean remove(Notificacion instance) {
         return false;
+    }
+
+    private List<Notificacion> traverseCursor (Cursor cursor) {
+        List<Notificacion> notificaciones = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Notificacion notificacion = null;
+            int idxId = -1;
+            int idxMensaje = -1;
+            int idxFecha = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxMensaje = cursor.getColumnIndex("mensaje");
+            idxFecha = cursor.getColumnIndex("fecha");
+            while (cursor.moveToNext()) {
+                notificacion = new Notificacion();
+                notificacion.setId(cursor.getInt(idxId));
+                notificacion.setMensaje(cursor.getString(idxMensaje));
+                try {
+                    notificacion.setFecha(dateFormat.parse(cursor.getString(idxFecha)));
+                } catch (ParseException e) {}
+                notificaciones.add(notificacion);
+            }
+        }
+        cursor.close();
+        return notificaciones;
     }
 }

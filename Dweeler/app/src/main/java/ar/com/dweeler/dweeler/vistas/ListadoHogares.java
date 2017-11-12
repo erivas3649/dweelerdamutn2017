@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.adaptadores.HogaresAdapter;
+import ar.com.dweeler.dweeler.dao.HogarDAO;
+import ar.com.dweeler.dweeler.daosqlite.HogarSqliteDAO;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 
 public class ListadoHogares extends ListFragment {
@@ -21,6 +23,7 @@ public class ListadoHogares extends ListFragment {
         void onHogarSelected(Hogar h);
     }
 
+    private HogarDAO hodao;
     private HogaresAdapter adapter;
     private ListadoHogaresListener listener;
 
@@ -45,12 +48,8 @@ public class ListadoHogares extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Hogar> hogares = new ArrayList<>();
-        hogares.add(new Hogar("Barrio Las Rosas", "Ruta 34", Hogar.TIPO.ESPACIO));
-        hogares.add(new Hogar("Casa Rio Ceballos", "Via Rosales 256", Hogar.TIPO.HOGAR));
-        hogares.add(new Hogar("Oficina Centro", "Av. Colón 1523", Hogar.TIPO.OFICINA));
-        hogares.add(new Hogar("Departamento", "Av. Fuerza Aerea 1523", Hogar.TIPO.HOGAR));
-        adapter = new HogaresAdapter(getContext(), hogares);
+        hodao = new HogarSqliteDAO(getContext().getApplicationContext());
+        adapter = new HogaresAdapter(getContext(), hodao.findAll());
         setListAdapter(adapter);
     }
 

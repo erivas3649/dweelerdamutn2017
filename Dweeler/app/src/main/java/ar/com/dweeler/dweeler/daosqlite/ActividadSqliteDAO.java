@@ -28,24 +28,11 @@ public class ActividadSqliteDAO implements ActividadDAO {
         return null;
     }
 
+    @Override
     public List<Actividad> findAllByHabitacion(Integer idHabitacion) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("actividades",null,"habitacion_id=?",new String[]{"" + idHabitacion},null,null,null);
-        List<Actividad> actividades = new ArrayList<>();
-        if (cursor.isBeforeFirst()) {
-            Actividad actividad = null;
-            int idxId = -1;
-            int idxNombre = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            while (cursor.moveToNext()) {
-                actividad = new Actividad();
-                actividad.setId(cursor.getInt(idxId));
-                actividad.setNombre(cursor.getString(idxNombre));
-                actividades.add(actividad);
-            }
-        }
-        cursor.close();
+        List<Actividad> actividades = traverseCursor(cursor);
         db.close();
         return actividades;
     }
@@ -54,21 +41,9 @@ public class ActividadSqliteDAO implements ActividadDAO {
     public Actividad findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("actividades",null, "id=?", new String[]{"" + id},null,null,null);
-        Actividad actividad = null;
-        if (cursor.isBeforeFirst()) {
-            int idxId = -1;
-            int idxNombre = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            if (cursor.moveToNext()) {
-                actividad = new Actividad();
-                actividad.setId(cursor.getInt(idxId));
-                actividad.setNombre(cursor.getString(idxNombre));
-            }
-        }
-        cursor.close();
+        List<Actividad> actividades = traverseCursor(cursor);
         db.close();
-        return actividad;
+        return actividades.size() > 0 ? actividades.get(0) : null;
     }
 
     @Override
@@ -90,5 +65,24 @@ public class ActividadSqliteDAO implements ActividadDAO {
     @Override
     public boolean remove(Actividad instance) {
         return false;
+    }
+
+    private List<Actividad> traverseCursor (Cursor cursor) {
+        List<Actividad> actividades = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Actividad actividad = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            while (cursor.moveToNext()) {
+                actividad = new Actividad();
+                actividad.setId(cursor.getInt(idxId));
+                actividad.setNombre(cursor.getString(idxNombre));
+                actividades.add(actividad);
+            }
+        }
+        cursor.close();
+        return actividades;
     }
 }

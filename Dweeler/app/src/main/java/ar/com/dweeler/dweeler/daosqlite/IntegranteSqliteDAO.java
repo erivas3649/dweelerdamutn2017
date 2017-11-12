@@ -28,29 +28,11 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
         return null;
     }
 
-    public List<Integrante> findAllByHogar(Integer idHogar){
+    @Override
+    public List<Integrante> findAllByHogar(Integer hogarId){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email, I.foto FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ?", new String[]{"" + idHogar});
-        List<Integrante> integrantes = new ArrayList<>();
-        if (cursor.isBeforeFirst()) {
-            Integrante integrante = null;
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxEmail = -1;
-            int idxIcono = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxEmail = cursor.getColumnIndex("email");
-            idxIcono = cursor.getColumnIndex("foto");
-            while (cursor.moveToNext()) {
-                integrante = new Integrante();
-                integrante.setId(cursor.getInt(idxId));
-                integrante.setNombre(cursor.getString(idxNombre));
-                integrante.setEmail(cursor.getString(idxEmail));
-                integrante.setIcono(cursor.getInt(idxIcono));
-            }
-        }
-        cursor.close();
+        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email, I.foto FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ?", new String[]{"" + hogarId});
+        List<Integrante> integrantes = traverseCursor(cursor);
         db.close();
         return integrantes;
     }
@@ -59,27 +41,9 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
     public Integrante findOne(Integer id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("integrantes",null, "id=?", new String[]{"" + id},null,null,null);
-        Integrante integrante = null;
-        if (cursor.isBeforeFirst()) {
-            int idxId = -1;
-            int idxNombre = -1;
-            int idxEmail = -1;
-            int idxIcono = -1;
-            idxId = cursor.getColumnIndex("id");
-            idxNombre = cursor.getColumnIndex("nombre");
-            idxEmail = cursor.getColumnIndex("email");
-            idxIcono = cursor.getColumnIndex("foto");
-            if (cursor.moveToNext()) {
-                integrante = new Integrante();
-                integrante.setId(cursor.getInt(idxId));
-                integrante.setNombre(cursor.getString(idxNombre));
-                integrante.setEmail(cursor.getString(idxEmail));
-                integrante.setIcono(cursor.getInt(idxIcono));
-            }
-        }
-        cursor.close();
+        List<Integrante> integrantes = traverseCursor(cursor);
         db.close();
-        return integrante;
+        return integrantes.size() > 0 ? integrantes.get(0) : null;
     }
 
     @Override
@@ -89,7 +53,6 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
         values.put("id", instance.getId());
         values.put("nombre", instance.getNombre());
         values.put("email", instance.getEmail());
-        values.put("foto", instance.getIcono());
         int id = (int) db.insert("integrantes", null, values);
         db.close();
         return id != -1;
@@ -103,5 +66,26 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
     @Override
     public boolean remove(Integrante instance) {
         return false;
+    }
+
+    private List<Integrante> traverseCursor (Cursor cursor) {
+        List<Integrante> integrantes = new ArrayList<>();
+        if (cursor.isBeforeFirst()) {
+            Integrante integrante = null;
+            int idxId = -1;
+            int idxNombre = -1;
+            int idxEmail = -1;
+            idxId = cursor.getColumnIndex("id");
+            idxNombre = cursor.getColumnIndex("nombre");
+            idxEmail = cursor.getColumnIndex("email");
+            while (cursor.moveToNext()) {
+                integrante = new Integrante();
+                integrante.setId(cursor.getInt(idxId));
+                integrante.setNombre(cursor.getString(idxNombre));
+                integrante.setEmail(cursor.getString(idxEmail));
+            }
+        }
+        cursor.close();
+        return integrantes;
     }
 }
