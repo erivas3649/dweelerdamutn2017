@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.IntegranteDAO;
+import ar.com.dweeler.dweeler.modelos.Hogar;
 import ar.com.dweeler.dweeler.modelos.Integrante;
 
 /**
@@ -31,7 +32,7 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
     @Override
     public List<Integrante> findAllByHogar(Integer hogarId){
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email, I.foto FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ?", new String[]{"" + hogarId});
+        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ?", new String[]{"" + hogarId});
         List<Integrante> integrantes = traverseCursor(cursor);
         db.close();
         return integrantes;
@@ -46,16 +47,38 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
         return integrantes.size() > 0 ? integrantes.get(0) : null;
     }
 
+    public Integrante findOneByHogar(Integer id, Integer hogarId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ? AND I.id = ?", new String[]{"" + hogarId, "" + id});
+        List<Integrante> integrantes = traverseCursor(cursor);
+        return integrantes.size() > 0 ? integrantes.get(0) : null;
+    }
+
     @Override
-    public boolean insert(Integrante instance) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public boolean insert(Integrante instance, Hogar hogarInstance) {
+        int id = -1, inid = -1;
         ContentValues values = new ContentValues();
-        values.put("id", instance.getId());
-        values.put("nombre", instance.getNombre());
-        values.put("email", instance.getEmail());
-        int id = (int) db.insert("integrantes", null, values);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if(findOne(instance.getId()) == null) {
+            values.put("id", instance.getId());
+            values.put("nombre", instance.getNombre());
+            values.put("email", instance.getEmail());
+            inid = (int) db.insert("integrantes", null, values);
+            instance.setId(inid);
+        }
+        if(inid != -1 || findOneByHogar(instance.getId(), hogarInstance.getId()) == null) {
+            values = new ContentValues();
+            values.put("hogar_id", hogarInstance.getId());
+            values.put("integrante_id", instance.getId());
+            id = (int) db.insert("integrantes_hogares", null, values);
+        }
         db.close();
         return id != -1;
+    }
+
+    @Override
+    public boolean insert(Integrante instance) {
+        return false;
     }
 
     @Override
@@ -83,6 +106,7 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
                 integrante.setId(cursor.getInt(idxId));
                 integrante.setNombre(cursor.getString(idxNombre));
                 integrante.setEmail(cursor.getString(idxEmail));
+                integrantes.add(integrante);
             }
         }
         cursor.close();

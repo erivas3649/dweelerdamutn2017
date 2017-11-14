@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 import ar.com.dweeler.dweeler.R;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
+import ar.com.dweeler.dweeler.servicios.ServicioActualizacion;
 import ar.com.dweeler.dweeler.vistas.DetalleHabitacion;
 import ar.com.dweeler.dweeler.vistas.ListadoActividades;
 import ar.com.dweeler.dweeler.vistas.ListadoDispositivos;
@@ -29,11 +31,15 @@ import ar.com.dweeler.dweeler.vistas.ListadoIntegrantes;
 public class ActividadPrincipal extends AppCompatActivity implements ListadoHogares.ListadoHogaresListener, ListadoHabitaciones.ListadoHabitacionesListener {
 
     private Hogar hogar;
+    private ProgressBar progreso;
+    private ServicioActualizacion servicioActualizacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actividad_principal);
+        progreso = (ProgressBar) findViewById(R.id.progreso);
+        servicioActualizacion = ServicioActualizacion.getInstance(getApplicationContext());
         findViewById(R.id.imgImagenUsuario).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +55,14 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
         findViewById(R.id.btnNotificaciones).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mostrarNotificaciones();
+                progreso.setVisibility(View.VISIBLE);
+                servicioActualizacion.obtenerNotificaciones(new ServicioActualizacion.ActualizacionListener() {
+                    @Override
+                    public void onActualizado() {
+                        progreso.setVisibility(View.GONE);
+                        mostrarNotificaciones();
+                    }
+                });
             }
         });
         findViewById(R.id.lblTitulo).setOnClickListener(new View.OnClickListener() {
@@ -76,6 +89,13 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
                 replaceMainFragment(ListadoIntegrantes.getOne(hogar), false);
             }
         });
+        findViewById(R.id.btnActualizar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                actualizar();
+            }
+        });
+        actualizar();
     }
 
     @Override
@@ -121,5 +141,15 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
             transaction.addToBackStack(null);
         }
         transaction.commit();
+    }
+
+    private void actualizar() {
+        progreso.setVisibility(View.VISIBLE);
+        servicioActualizacion.obtenerDatos(new ServicioActualizacion.ActualizacionListener() {
+            @Override
+            public void onActualizado() {
+                progreso.setVisibility(View.GONE);
+            }
+        });
     }
 }

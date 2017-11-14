@@ -47,13 +47,16 @@ public class NotificacionSqliteDAO implements NotificacionDAO {
 
     @Override
     public boolean insert(Notificacion instance) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id", instance.getId());
-        values.put("mensaje", instance.getMensaje());
-        values.put("fecha", dateFormat.format(instance.getFecha()));
-        int id = (int) db.insert("notificaciones", null, values);
-        db.close();
+        int id = -1;
+        if(findOne(instance.getId()) == null) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("id", instance.getId());
+            values.put("mensaje", instance.getMensaje());
+            values.put("fecha", dateFormat.format(instance.getFecha()));
+            id = (int) db.insert("notificaciones", null, values);
+            db.close();
+        }
         return id != -1;
     }
 

@@ -41,11 +41,6 @@ public class ListadoIntegrantes extends ListFragment {
         setListAdapter(adapter);
     }
 
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-
-    }
-
     public static ListadoIntegrantes getOne (Hogar h) {
         ListadoIntegrantes li = new ListadoIntegrantes();
         li.hogar = h;

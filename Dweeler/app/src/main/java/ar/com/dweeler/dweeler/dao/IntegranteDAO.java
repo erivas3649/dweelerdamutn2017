@@ -2,6 +2,7 @@ package ar.com.dweeler.dweeler.dao;
 
 import java.util.List;
 
+import ar.com.dweeler.dweeler.modelos.Hogar;
 import ar.com.dweeler.dweeler.modelos.Integrante;
 
 /**
@@ -10,4 +11,5 @@ import ar.com.dweeler.dweeler.modelos.Integrante;
 
 public interface IntegranteDAO extends BasicDAO<Integrante, Integer> {
     List<Integrante> findAllByHogar(Integer hogarId);
+    boolean insert(Integrante instance, Hogar hogarInstance);
 }

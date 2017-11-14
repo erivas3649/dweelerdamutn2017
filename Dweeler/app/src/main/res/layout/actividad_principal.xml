@@ -40,10 +40,20 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/btnActualizar"
             android:background="@null"
             android:tint="@color/iconColor"
             app:srcCompat="@drawable/ico_notificaciones" />
+        <ImageButton
+            android:id="@+id/btnActualizar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:tint="@color/iconColor"
+            app:srcCompat="@drawable/ico_actualizar" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -98,6 +108,13 @@
             android:tint="@color/iconColor"
             app:srcCompat="@drawable/ico_personas" />
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progreso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:visibility="gone"/>
     <FrameLayout
         android:id="@+id/frgPlaceholder"
         android:layout_width="match_parent"

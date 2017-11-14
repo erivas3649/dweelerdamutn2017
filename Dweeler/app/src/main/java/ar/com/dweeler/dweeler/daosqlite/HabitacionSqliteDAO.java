@@ -11,6 +11,7 @@ import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.HabitacionDAO;
 import ar.com.dweeler.dweeler.modelos.Habitacion;
+import ar.com.dweeler.dweeler.modelos.Hogar;
 
 /**
  * Created by nemesys on 27/10/17.
@@ -53,16 +54,25 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
     }
 
     @Override
-    public boolean insert(Habitacion instance) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id", instance.getId());
-        values.put("nombre", instance.getNombre());
-        values.put("descripcion", instance.getDescripcion());
-        values.put("tipo", instance.getTipo().getValor());
-        int id = (int) db.insert("habitaciones", null, values);
-        db.close();
+    public boolean insert(Habitacion instance, Hogar hogarInstance) {
+        int id = -1;
+        if(findOne(instance.getId()) == null) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("id", instance.getId());
+            values.put("nombre", instance.getNombre());
+            values.put("descripcion", instance.getDescripcion());
+            values.put("tipo", instance.getTipo().getValor());
+            values.put("hogar_id", hogarInstance.getId());
+            id = (int) db.insert("habitaciones", null, values);
+            db.close();
+        }
         return id != -1;
+    }
+
+    @Override
+    public boolean insert(Habitacion instance) {
+        return false;
     }
 
     @Override

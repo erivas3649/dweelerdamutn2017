@@ -10,6 +10,7 @@ import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.DispositivoDAO;
 import ar.com.dweeler.dweeler.modelos.Dispositivo;
+import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 
 /**
@@ -55,16 +56,25 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
     }
 
     @Override
-    public boolean insert(Dispositivo instance) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id", instance.getId());
-        values.put("nombre", instance.getNombre());
-        values.put("estado", instance.getEstado());
-        values.put("tipo", instance.getTipo().getValor());
-        int id = (int) db.insert("dispositivos", null, values);
-        db.close();
+    public boolean insert(Dispositivo instance, Habitacion habitacionInstance) {
+        int id = -1;
+        if(findOne(instance.getId()) == null) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("id", instance.getId());
+            values.put("nombre", instance.getNombre());
+            values.put("estado", instance.getEstado());
+            values.put("tipo", instance.getTipo().getValor());
+            values.put("habitacion_id", habitacionInstance.getId());
+            id = (int) db.insert("dispositivos", null, values);
+            db.close();
+        }
         return id != -1;
+    }
+
+    @Override
+    public boolean insert(Dispositivo instance) {
+        return false;
     }
 
     @Override

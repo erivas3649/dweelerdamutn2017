@@ -10,6 +10,7 @@ import java.util.List;
 
 import ar.com.dweeler.dweeler.dao.ActividadDAO;
 import ar.com.dweeler.dweeler.modelos.Actividad;
+import ar.com.dweeler.dweeler.modelos.Habitacion;
 
 /**
  * Created by nemesys on 27/10/17.
@@ -47,14 +48,23 @@ public class ActividadSqliteDAO implements ActividadDAO {
     }
 
     @Override
-    public boolean insert(Actividad instance) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("id", instance.getId());
-        values.put("nombre", instance.getNombre());
-        int id = (int) db.insert("actividades", null, values);
-        db.close();
+    public boolean insert(Actividad instance, Habitacion habitacionInstance) {
+        int id = -1;
+        if(findOne(instance.getId()) == null) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("id", instance.getId());
+            values.put("nombre", instance.getNombre());
+            values.put("habitacion_id", habitacionInstance.getId());
+            id = (int) db.insert("actividades", null, values);
+            db.close();
+        }
         return id != -1;
+    }
+
+    @Override
+    public boolean insert(Actividad instance) {
+        return false;
     }
 
     @Override

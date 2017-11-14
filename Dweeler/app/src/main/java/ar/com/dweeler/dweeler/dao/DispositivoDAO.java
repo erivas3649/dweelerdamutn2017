@@ -3,6 +3,7 @@ package ar.com.dweeler.dweeler.dao;
 import java.util.List;
 
 import ar.com.dweeler.dweeler.modelos.Dispositivo;
+import ar.com.dweeler.dweeler.modelos.Habitacion;
 import ar.com.dweeler.dweeler.modelos.Hogar;
 
 /**
@@ -12,4 +13,6 @@ import ar.com.dweeler.dweeler.modelos.Hogar;
 public interface DispositivoDAO extends BasicDAO<Dispositivo, Integer> {
     List<Dispositivo> findAllByHogar(Integer hogarId);
     List<Dispositivo> findAllByHabitacion(Integer habitacionId);
+
+    boolean insert(Dispositivo instance, Habitacion habitacionInstance);
 }

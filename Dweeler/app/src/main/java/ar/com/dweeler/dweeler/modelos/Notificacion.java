@@ -3,7 +3,7 @@ package ar.com.dweeler.dweeler.modelos;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,7 +13,8 @@ import java.util.Date;
 
 public class Notificacion {
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+    private static final SimpleDateFormat showFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
+    private static final SimpleDateFormat dbFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private int id;
     private String mensaje;
     private Date fecha;
@@ -52,14 +53,14 @@ public class Notificacion {
     }
 
     public String getFechaFormateada() {
-        return dateFormat.format(this.fecha);
+        return showFormat.format(this.fecha);
     }
 
-    public static Notificacion parse(JSONObject json) throws JSONException {
+    public static Notificacion parse(JSONObject json) throws JSONException, ParseException {
         Notificacion n = new Notificacion();
         n.setId(json.getInt("id"));
         n.setMensaje(json.getString("mensaje"));
-        //n.setFecha(json.getString("fecha"));
+        n.setFecha(dbFormat.parse(json.getString("fecha")));
         return n;
     }
 }

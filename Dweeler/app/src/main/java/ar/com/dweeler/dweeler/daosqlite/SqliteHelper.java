@@ -56,19 +56,19 @@ public class SqliteHelper extends SQLiteOpenHelper {
         database.execSQL("CREATE TABLE `integrantes` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`nombre`\tTEXT NOT NULL,\n" +
-                "\t`email`\tTEXT NOT NULL,\n" +
+                "\t`email`\tTEXT NOT NULL\n" +
                 ");");
         database.execSQL("CREATE TABLE `integrantes_hogares` (\n" +
-                "\t`hogar_id`\tINTEGER,\n" +
-                "\t`integrante_id`\tINTEGER,\n" +
-                "\t`PRIMARY KEY (hogar_id, integrante_id)`" +
+                "\t`hogar_id`\tINTEGER NOT NULL,\n" +
+                "\t`integrante_id`\tINTEGER NOT NULL,\n" +
+                "\tPRIMARY KEY (hogar_id, integrante_id)" +
                 ");");
         database.execSQL("CREATE TABLE `notificaciones` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`mensaje`\tTEXT NOT NULL,\n" +
                 "\t`fecha`\tTEXT\n" +
                 ");");
-        mockData(database);
+        //mockData(database);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
         database.execSQL("INSERT INTO integrantes VALUES (2, 'Matias Pavan', 'matipavan@gmail.com')");
         database.execSQL("INSERT INTO integrantes_hogares VALUES (1, 1)");
         database.execSQL("INSERT INTO integrantes_hogares VALUES (1, 2)");
-        database.execSQL("INSERT INTO notificaciones VALUES (1, 'Dweeler ha iniciado el modo de ahorro de energia', '2017-11-04')");
-        database.execSQL("INSERT INTO notificaciones VALUES (1, 'Eric ha agregado a Matias a Departamento Cordoba', '2017-11-06')");
+        database.execSQL("INSERT INTO notificaciones VALUES (1, 'Dweeler ha iniciado el modo de ahorro de energia', '2017-11-04 21:09:00')");
+        database.execSQL("INSERT INTO notificaciones VALUES (2, 'Eric ha agregado a Matias a Departamento Cordoba', '2017-11-06 14:03:00')");
     }
 }
