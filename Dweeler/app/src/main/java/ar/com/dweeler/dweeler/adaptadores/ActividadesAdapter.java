@@ -20,6 +20,7 @@ public class ActividadesAdapter extends ListAdapter<Actividad> {
     private LayoutInflater inflater;
 
     public ActividadesAdapter(Context c) {
+        super();
         this.inflater = LayoutInflater.from(c);
     }
 

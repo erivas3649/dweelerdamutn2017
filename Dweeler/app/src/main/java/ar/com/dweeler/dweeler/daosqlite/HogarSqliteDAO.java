@@ -44,16 +44,18 @@ public class HogarSqliteDAO implements HogarDAO {
     @Override
     public boolean insert(Hogar instance) {
         int id = -1;
-        if(findOne(instance.getId()) == null) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT id FROM hogares WHERE id=?", new String[] {"" + instance.getId()});
+        if(c.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put("id", instance.getId());
             values.put("nombre", instance.getNombre());
             values.put("direccion", instance.getDireccion());
             values.put("tipo", instance.getTipo().getValor());
             id = (int) db.insert("hogares", null, values);
-            db.close();
         }
+        c.close();
+        db.close();
         return id != -1;
     }
 

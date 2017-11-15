@@ -25,7 +25,7 @@ public class DispositivosAdapter extends ListAdapter<Dispositivo> {
     private LayoutInflater inflater;
 
     public DispositivosAdapter (Context c) {
-        this.data = new ArrayList<>();
+        super();
         this.inflater = LayoutInflater.from(c);
     }
 

@@ -1,6 +1,10 @@
 package ar.com.dweeler.dweeler.vistas;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -22,6 +26,10 @@ import ar.com.dweeler.dweeler.modelos.Notificacion;
  */
 public class ListadoNotificaciones extends ListFragment {
 
+    private static final String BROADCASTACTUALIZARNOTIFICACIONES = "ar.com.dweeler.ActividadPrincipal.ACTUALIZARNOTIFICACIONES";
+    private IntentFilter filtro;
+    private BroadcastReceiver receptor;
+
     private NotificacionDAO nodao;
     private NotificacionesAdapter adapter;
 
@@ -37,7 +45,27 @@ public class ListadoNotificaciones extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         nodao = new NotificacionSqliteDAO(getContext().getApplicationContext());
-        adapter = new NotificacionesAdapter(getContext(), nodao.findAll());
+        adapter = new NotificacionesAdapter(getContext());
+        filtro = new IntentFilter(BROADCASTACTUALIZARNOTIFICACIONES);
+        receptor = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                actualizarListado();
+            }
+        };
+        getActivity().registerReceiver(receptor, filtro);
         setListAdapter(adapter);
+        actualizarListado();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(receptor);
+    }
+
+    private void actualizarListado () {
+        adapter.setData(nodao.findAll());
+        adapter.notifyDataSetChanged();
     }
 }

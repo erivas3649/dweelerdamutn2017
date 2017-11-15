@@ -47,31 +47,34 @@ public class IntegranteSqliteDAO implements IntegranteDAO {
         return integrantes.size() > 0 ? integrantes.get(0) : null;
     }
 
-    public Integrante findOneByHogar(Integer id, Integer hogarId) {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT I.id, I.nombre, I.email FROM integrantes I JOIN integrantes_hogares IH ON I.id = IH.integrante_id WHERE IH.hogar_id = ? AND I.id = ?", new String[]{"" + hogarId, "" + id});
-        List<Integrante> integrantes = traverseCursor(cursor);
-        return integrantes.size() > 0 ? integrantes.get(0) : null;
-    }
-
     @Override
     public boolean insert(Integrante instance, Hogar hogarInstance) {
-        int id = -1, inid = -1;
-        ContentValues values = new ContentValues();
+        int id = -1;
+        ContentValues values;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if(findOne(instance.getId()) == null) {
+        Cursor c = db.rawQuery("SELECT id FROM integrantes WHERE id=?", new String[] {"" + instance.getId()});
+        if(c.getCount() == 0) {
+            values = new ContentValues();
             values.put("id", instance.getId());
             values.put("nombre", instance.getNombre());
             values.put("email", instance.getEmail());
-            inid = (int) db.insert("integrantes", null, values);
-            instance.setId(inid);
-        }
-        if(inid != -1 || findOneByHogar(instance.getId(), hogarInstance.getId()) == null) {
+            db.insert("integrantes", null, values);
             values = new ContentValues();
             values.put("hogar_id", hogarInstance.getId());
             values.put("integrante_id", instance.getId());
             id = (int) db.insert("integrantes_hogares", null, values);
         }
+        else {
+            Cursor c1 = db.rawQuery("SELECT integrante_id FROM integrantes_hogares WHERE integrante_id=? AND hogar_id=?", new String[] {"" + instance.getId(), "" + hogarInstance.getId()});
+            if(c1.getCount() == 0) {
+                values = new ContentValues();
+                values.put("hogar_id", hogarInstance.getId());
+                values.put("integrante_id", instance.getId());
+                id = (int) db.insert("integrantes_hogares", null, values);
+            }
+            c1.close();
+        }
+        c.close();
         db.close();
         return id != -1;
     }

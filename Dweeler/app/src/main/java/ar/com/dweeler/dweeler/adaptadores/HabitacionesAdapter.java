@@ -24,7 +24,7 @@ public class HabitacionesAdapter extends ListAdapter<Habitacion> {
     private LayoutInflater inflater;
 
     public HabitacionesAdapter (Context c) {
-        data = new ArrayList<>();
+        super();
         inflater = LayoutInflater.from(c);
     }
 

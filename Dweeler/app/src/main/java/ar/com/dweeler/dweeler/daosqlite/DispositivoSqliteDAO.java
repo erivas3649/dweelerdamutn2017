@@ -58,8 +58,9 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
     @Override
     public boolean insert(Dispositivo instance, Habitacion habitacionInstance) {
         int id = -1;
-        if(findOne(instance.getId()) == null) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT id FROM dispositivos WHERE id=?", new String[] {"" + instance.getId()});
+        if(c.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put("id", instance.getId());
             values.put("nombre", instance.getNombre());
@@ -67,8 +68,9 @@ public class DispositivoSqliteDAO implements DispositivoDAO {
             values.put("tipo", instance.getTipo().getValor());
             values.put("habitacion_id", habitacionInstance.getId());
             id = (int) db.insert("dispositivos", null, values);
-            db.close();
         }
+        c.close();
+        db.close();
         return id != -1;
     }
 

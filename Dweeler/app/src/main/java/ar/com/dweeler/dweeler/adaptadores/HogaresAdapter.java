@@ -24,7 +24,7 @@ public class HogaresAdapter extends ListAdapter<Hogar> {
     private LayoutInflater inflater;
 
     public HogaresAdapter (Context c) {
-        data = new ArrayList<>();
+        super();
         inflater = LayoutInflater.from(c);
     }
 

@@ -22,7 +22,7 @@ public class NotificacionesAdapter extends ListAdapter<Notificacion> {
     private LayoutInflater inflater;
 
     public NotificacionesAdapter(Context c) {
-        this.data = new ArrayList<>();
+        super();
         this.inflater = LayoutInflater.from(c);
     }
 

@@ -50,15 +50,17 @@ public class ActividadSqliteDAO implements ActividadDAO {
     @Override
     public boolean insert(Actividad instance, Habitacion habitacionInstance) {
         int id = -1;
-        if(findOne(instance.getId()) == null) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT id FROM actividades WHERE id=?", new String[] {"" + instance.getId()});
+        if(c.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put("id", instance.getId());
             values.put("nombre", instance.getNombre());
             values.put("habitacion_id", habitacionInstance.getId());
             id = (int) db.insert("actividades", null, values);
-            db.close();
         }
+        c.close();
+        db.close();
         return id != -1;
     }
 

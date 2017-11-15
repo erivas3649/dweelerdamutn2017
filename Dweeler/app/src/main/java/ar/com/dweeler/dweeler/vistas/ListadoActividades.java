@@ -1,6 +1,10 @@
 package ar.com.dweeler.dweeler.vistas;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -24,6 +28,9 @@ import ar.com.dweeler.dweeler.modelos.Habitacion;
  */
 public class ListadoActividades extends ListFragment {
 
+    private static final String BROADCASTACTUALIZAR = "ar.com.dweeler.ActividadPrincipal.ACTUALIZAR";
+    private IntentFilter filtro;
+    private BroadcastReceiver receptor;
 
     private ActividadDAO acdao;
     private ActividadesAdapter adapter;
@@ -41,19 +48,35 @@ public class ListadoActividades extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         acdao = new ActividadSqliteDAO(getContext().getApplicationContext());
-        adapter = new ActividadesAdapter(getContext(), acdao.findAllByHabitacion(habitacion.getId()));
+        adapter = new ActividadesAdapter(getContext());
+        filtro = new IntentFilter(BROADCASTACTUALIZAR);
+        receptor = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            actualizarListado();
+            }
+        };
+        getActivity().registerReceiver(receptor, filtro);
         setListAdapter(adapter);
+        actualizarListado();
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(receptor);
     }
+
 
     public static ListadoActividades getOne (Habitacion h) {
         ListadoActividades la = new ListadoActividades();
         la.habitacion = h;
         return la;
+    }
+
+    private void actualizarListado () {
+        adapter.setData(acdao.findAllByHabitacion(habitacion.getId()));
+        adapter.notifyDataSetChanged();
     }
 
 }

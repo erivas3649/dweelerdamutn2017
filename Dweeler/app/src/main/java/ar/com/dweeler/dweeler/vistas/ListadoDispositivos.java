@@ -1,6 +1,10 @@
 package ar.com.dweeler.dweeler.vistas;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -21,6 +25,10 @@ import ar.com.dweeler.dweeler.modelos.Hogar;
 
 public class ListadoDispositivos extends ListFragment {
 
+    private static final String BROADCASTACTUALIZAR = "ar.com.dweeler.ActividadPrincipal.ACTUALIZAR";
+    private IntentFilter filtro;
+    private BroadcastReceiver receptor;
+
     private Hogar hogar;
     private Habitacion habitacion;
     private DispositivoDAO didao;
@@ -39,21 +47,25 @@ public class ListadoDispositivos extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         didao = new DispositivoSqliteDAO(getContext().getApplicationContext());
-        List<Dispositivo> dispositivos;
-        if(habitacion != null) {
-            dispositivos = didao.findAllByHabitacion(habitacion.getId());
-        }
-        else {
-            dispositivos = didao.findAllByHogar(hogar.getId());
-        }
-        adapter = new DispositivosAdapter(getContext(), dispositivos);
+        adapter = new DispositivosAdapter(getContext());
+        filtro = new IntentFilter(BROADCASTACTUALIZAR);
+        receptor = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                actualizarListado();
+            }
+        };
+        getActivity().registerReceiver(receptor, filtro);
         setListAdapter(adapter);
+        actualizarListado();
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(receptor);
     }
+
 
     public static ListadoDispositivos getOne(Habitacion h) {
         ListadoDispositivos ld = new ListadoDispositivos();
@@ -65,5 +77,17 @@ public class ListadoDispositivos extends ListFragment {
         ListadoDispositivos ld = new ListadoDispositivos();
         ld.hogar = h;
         return ld;
+    }
+
+    private void actualizarListado() {
+        List<Dispositivo> dispositivos;
+        if(habitacion != null) {
+            dispositivos = didao.findAllByHabitacion(habitacion.getId());
+        }
+        else {
+            dispositivos = didao.findAllByHogar(hogar.getId());
+        }
+        adapter.setData(dispositivos);
+        adapter.notifyDataSetChanged();
     }
 }

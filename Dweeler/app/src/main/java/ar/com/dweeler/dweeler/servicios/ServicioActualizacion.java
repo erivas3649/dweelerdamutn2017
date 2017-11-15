@@ -67,7 +67,7 @@ public class ServicioActualizacion {
     }
 
     public void obtenerDatos(final ActualizacionListener listener) {
-        String url = "http://planetario.s3-website-sa-east-1.amazonaws.com/dweeler/datoseric.json";
+        String url = "http://planetario.s3-website-sa-east-1.amazonaws.com/dweeler/app/erivas3649/data?appid=f2542f3329a4e90f7b2a8b7d752f327a";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -113,7 +113,7 @@ public class ServicioActualizacion {
     }
 
     public void obtenerNotificaciones(final ActualizacionListener listener) {
-        String url = "http://planetario.s3-website-sa-east-1.amazonaws.com/dweeler/notificacioneseric.json";
+        String url = "http://planetario.s3-website-sa-east-1.amazonaws.com/dweeler/app/erivas3649/notificaciones/data?appid=f2542f3329a4e90f7b2a8b7d752f327a";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

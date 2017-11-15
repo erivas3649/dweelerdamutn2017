@@ -34,7 +34,7 @@
             android:id="@+id/txtEmailUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="erivas@dweeler.com"
+            android:text="erivas3649@gmail.com"
             android:textAlignment="center"
             android:textColor="@color/colorTextPrimary" />
     </LinearLayout>

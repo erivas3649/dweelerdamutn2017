@@ -1,7 +1,10 @@
 package ar.com.dweeler.dweeler.vistas;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -24,6 +27,10 @@ public class ListadoHabitaciones extends ListFragment {
     public interface ListadoHabitacionesListener {
         void onHabitacionSelected(Habitacion h);
     }
+
+    private static final String BROADCASTACTUALIZAR = "ar.com.dweeler.ActividadPrincipal.ACTUALIZAR";
+    private IntentFilter filtro;
+    private BroadcastReceiver receptor;
 
     private HabitacionDAO hadao;
     private HabitacionesAdapter adapter;
@@ -53,8 +60,23 @@ public class ListadoHabitaciones extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         hadao = new HabitacionSqliteDAO(getContext().getApplicationContext());
-        adapter = new HabitacionesAdapter(getContext(), hadao.findAllByHogar(hogar.getId()));
+        adapter = new HabitacionesAdapter(getContext());
+        filtro = new IntentFilter(BROADCASTACTUALIZAR);
+        receptor = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+            actualizarListado();
+            }
+        };
+        getActivity().registerReceiver(receptor, filtro);
         setListAdapter(adapter);
+        actualizarListado();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(receptor);
     }
 
     @Override
@@ -66,5 +88,10 @@ public class ListadoHabitaciones extends ListFragment {
         ListadoHabitaciones lh = new ListadoHabitaciones();
         lh.hogar = h;
         return  lh;
+    }
+
+    private void actualizarListado () {
+        adapter.setData(hadao.findAllByHogar(hogar.getId()));
+        adapter.notifyDataSetChanged();
     }
 }

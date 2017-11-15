@@ -23,7 +23,7 @@ public class IntegrantesAdapter extends ListAdapter<Integrante> {
     private LayoutInflater inflater;
 
     public IntegrantesAdapter(Context c) {
-        this.data = new ArrayList<>();
+        super();
         this.inflater = LayoutInflater.from(c);
     }
 

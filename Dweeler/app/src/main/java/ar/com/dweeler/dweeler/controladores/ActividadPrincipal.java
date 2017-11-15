@@ -30,6 +30,9 @@ import ar.com.dweeler.dweeler.vistas.ListadoIntegrantes;
 
 public class ActividadPrincipal extends AppCompatActivity implements ListadoHogares.ListadoHogaresListener, ListadoHabitaciones.ListadoHabitacionesListener {
 
+    private static final String BROADCASTACTUALIZAR = "ar.com.dweeler.ActividadPrincipal.ACTUALIZAR";
+    private static final String BROADCASTACTUALIZARNOTIFICACIONES = "ar.com.dweeler.ActividadPrincipal.ACTUALIZARNOTIFICACIONES";
+
     private Hogar hogar;
     private ProgressBar progreso;
     private ServicioActualizacion servicioActualizacion;
@@ -55,12 +58,13 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
         findViewById(R.id.btnNotificaciones).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mostrarNotificaciones();
                 progreso.setVisibility(View.VISIBLE);
                 servicioActualizacion.obtenerNotificaciones(new ServicioActualizacion.ActualizacionListener() {
                     @Override
                     public void onActualizado() {
                         progreso.setVisibility(View.GONE);
-                        mostrarNotificaciones();
+                        sendBroadcast(new Intent(BROADCASTACTUALIZARNOTIFICACIONES));
                     }
                 });
             }
@@ -149,6 +153,7 @@ public class ActividadPrincipal extends AppCompatActivity implements ListadoHoga
             @Override
             public void onActualizado() {
                 progreso.setVisibility(View.GONE);
+                sendBroadcast(new Intent(BROADCASTACTUALIZAR));
             }
         });
     }

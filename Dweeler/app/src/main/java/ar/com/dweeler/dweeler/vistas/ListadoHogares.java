@@ -1,7 +1,10 @@
 package ar.com.dweeler.dweeler.vistas;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -22,6 +25,10 @@ public class ListadoHogares extends ListFragment {
     public interface ListadoHogaresListener {
         void onHogarSelected(Hogar h);
     }
+
+    private static final String BROADCASTACTUALIZAR = "ar.com.dweeler.ActividadPrincipal.ACTUALIZAR";
+    private IntentFilter filtro;
+    private BroadcastReceiver receptor;
 
     private HogarDAO hodao;
     private HogaresAdapter adapter;
@@ -49,8 +56,23 @@ public class ListadoHogares extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         hodao = new HogarSqliteDAO(getContext().getApplicationContext());
-        adapter = new HogaresAdapter(getContext(), hodao.findAll());
+        adapter = new HogaresAdapter(getContext());
+        filtro = new IntentFilter(BROADCASTACTUALIZAR);
+        receptor = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                actualizarListado();
+            }
+        };
+        getActivity().registerReceiver(receptor, filtro);
         setListAdapter(adapter);
+        actualizarListado();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(receptor);
     }
 
     @Override
@@ -60,5 +82,10 @@ public class ListadoHogares extends ListFragment {
 
     public static ListadoHogares getOne () {
         return new ListadoHogares();
+    }
+
+    private void actualizarListado() {
+        adapter.setData(hodao.findAll());
+        adapter.notifyDataSetChanged();
     }
 }

@@ -56,8 +56,9 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
     @Override
     public boolean insert(Habitacion instance, Hogar hogarInstance) {
         int id = -1;
-        if(findOne(instance.getId()) == null) {
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Cursor c = db.rawQuery("SELECT id FROM habitaciones WHERE id=?", new String[] {"" + instance.getId()});
+        if(c.getCount() == 0) {
             ContentValues values = new ContentValues();
             values.put("id", instance.getId());
             values.put("nombre", instance.getNombre());
@@ -65,8 +66,9 @@ public class HabitacionSqliteDAO implements HabitacionDAO {
             values.put("tipo", instance.getTipo().getValor());
             values.put("hogar_id", hogarInstance.getId());
             id = (int) db.insert("habitaciones", null, values);
-            db.close();
         }
+        c.close();
+        db.close();
         return id != -1;
     }
 
